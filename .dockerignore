@@ -1,0 +1,12 @@
+**
+!requirements.txt
+!requirements.lock
+!backend/
+!backend/*.py
+!frontend/
+!frontend/**
+!scripts/
+!scripts/start.sh
+!scripts/check_analysis.py
+**/__pycache__/
+**/*.pyc

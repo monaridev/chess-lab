@@ -1,0 +1,39 @@
+name: Validate Railway image
+on: [push, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build production image
+        run: docker build -t chess-lab:ci .
+      - name: Check Stockfish in production runtime
+        run: docker run --rm -i chess-lab:ci python -m scripts.check_analysis --expected stockfish
+      - name: Start on Railway-style PORT
+        run: docker run -d --name chess-lab -e PORT=18765 -p 127.0.0.1:18765:18765 chess-lab:ci
+      - name: Install smoke client
+        run: pip install httpx==0.28.1 websockets==16.1.1
+      - name: HTTP, WebSocket and two-player game
+        run: |
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:18765/api/health; then break; fi
+            sleep 1
+          done
+          curl -fsS http://127.0.0.1:18765/ > /dev/null
+          python -m tests.smoke_network --url http://127.0.0.1:18765
+      - name: Fallback with unavailable engine
+        run: |
+          docker run --rm -e STOCKFISH_PATH=/missing/stockfish chess-lab:ci python -m scripts.check_analysis --expected heuristic
+          docker rm -f chess-lab
+          docker run -d --name chess-lab -e PORT=18766 -e STOCKFISH_PATH= -p 127.0.0.1:18766:18766 chess-lab:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:18766/api/health; then break; fi
+            sleep 1
+          done
+          python -m tests.smoke_network --url http://127.0.0.1:18766
+      - name: Container logs
+        if: always()
+        run: docker logs chess-lab

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101816">
+  <title>Chess Lab — Jogue. Observe. Aprenda.</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="stylesheet" href="/static/appearance.css">
+  <link rel="stylesheet" href="/static/special-themes.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="/" aria-label="Chess Lab, início"><span class="brand-symbol" aria-hidden="true">♘</span> chess<span class="brand-light">lab</span><span class="version">V1.2</span></a>
+    <span class="header-note"><span class="dot"></span> Duas pessoas. Um tabuleiro.</span>
+  </header>
+  <main>
+    <section id="lobby" class="lobby" aria-labelledby="welcome-title">
+      <div class="welcome">
+        <p class="eyebrow">SEU LABORATÓRIO DE XADREZ</p>
+        <h1 id="welcome-title">Cada lance,<br>uma descoberta<span class="accent">.</span></h1>
+        <p class="intro">Jogue com alguém. Explore possibilidades.<br>Aprenda a enxergar além da próxima jogada.</p>
+        <div class="welcome-details"><span>01 &nbsp; Crie uma sala</span><span>02 &nbsp; Compartilhe o código</span><span>03 &nbsp; Joguem juntos</span></div>
+        <div id="resume-box" class="resume-box" hidden><p>Sua sala está guardada nesta aba.</p><button id="resume" class="button secondary">Retomar partida</button></div>
+        <p class="quiet">Sem cadastro. Sem instalações. Só xadrez.</p>
+      </div>
+      <div class="entry-panel panel">
+        <div class="panel-heading"><span class="eyebrow">NOVA PARTIDA</span><span class="tiny-mark" aria-hidden="true">↗</span></div>
+        <h2>O próximo lance é de vocês.</h2>
+        <form id="create-form">
+          <fieldset class="mode-options">
+            <legend>Escolha como jogar</legend>
+            <label class="mode-option"><input type="radio" name="mode" value="assisted" checked><span><strong>Partida Assistida</strong><small>Dicas progressivas, quando você precisar.</small></span><span class="mode-icon" aria-hidden="true">✧</span></label>
+            <label class="mode-option"><input type="radio" name="mode" value="normal"><span><strong>Partida Normal</strong><small>Você, seu adversário e suas ideias.</small></span><span class="mode-icon" aria-hidden="true">♟</span></label>
+          </fieldset>
+          <button id="create" class="button primary full" type="submit">Criar sala <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="divider"><span>ou entre em uma sala</span></div>
+        <form id="join-form">
+          <label for="room-input" class="field-label">Código da sala</label>
+          <div class="join-row"><input id="room-input" name="code" type="text" placeholder="Ex.: A7K9PM" maxlength="6" minlength="6" pattern="[A-Za-z2-9]{6}" autocomplete="off" autocapitalize="characters" spellcheck="false" required><button id="join" type="submit" class="button secondary">Entrar <span aria-hidden="true">↗</span></button></div>
+        </form>
+        <p id="lobby-error" class="error" role="alert"></p>
+        <p class="entry-footnote">Quem cria joga de brancas. Quem entra, de pretas.</p>
+      </div>
+    </section>
+
+    <section id="game" class="game" aria-label="Partida de xadrez" hidden>
+      <div class="game-topline"><button id="back" class="text-button">← Início</button><span id="mode-label" class="eyebrow"></span><span id="connection" class="connection" role="status">Conectando…</span></div>
+      <div class="theme-caption"><strong id="theme-name"></strong><span id="theme-description"></span></div>
+      <div class="game-layout">
+        <aside class="room-panel panel">
+          <p class="eyebrow">SALA DE JOGO</p>
+          <div class="room-code-row"><strong id="room-code"></strong><button id="copy" class="icon-button" aria-label="Copiar código da sala" title="Copiar código">⧉</button></div>
+          <p id="copy-status" class="muted" role="status">Compartilhe o código com seu adversário.</p>
+          <div class="rule"></div>
+          <p class="field-label">Você joga de</p>
+          <p id="your-color" class="your-color"></p>
+          <div class="player-list"><div><span><i class="piece-dot white-dot"></i>Brancas</span><small id="white-presence"></small></div><div><span><i class="piece-dot black-dot"></i>Pretas</span><small id="black-presence"></small></div></div>
+          <div class="rule"></div>
+          <p class="eyebrow">COMO JOGAR</p>
+          <p class="muted instruction">Clique em uma peça sua e depois em um destino destacado.</p>
+          <p class="quiet">O tabuleiro é atualizado para os dois a cada lance.</p>
+          <details class="appearance-controls"><summary>Aparência <span aria-hidden="true">✧</span></summary><div class="appearance-fields">
+            <label for="board-theme">Tema do tabuleiro</label><select id="board-theme"><option value="laboratory">Laboratory</option><option value="matcha">Matcha</option><option value="strawberry">Strawberry Milk</option><option value="midnight">Midnight</option><option value="lavender">Lavender</option><option value="elmore">Elmore School</option><option value="watterson">Watterson Cozy</option></select>
+            <label for="piece-skin">Skin das peças</label><select id="piece-skin"><option value="classic">Classic</option><option value="soft">Soft</option><option value="cute">Cute</option><option value="minimal">Minimal</option><option value="cartoon">Cartoon 2.0</option></select>
+            <p class="quiet">Um jeito seu de olhar o tabuleiro. Só muda para você.</p><p id="appearance-status" class="quiet" role="status"></p>
+          </div></details>
+        </aside>
+
+        <div class="board-section">
+          <div class="board-heading"><div><p id="turn-label" class="turn-label" role="status">Preparando tabuleiro…</p><p id="game-status" class="muted" aria-live="polite"></p></div><span id="turn-piece" class="turn-indicator" aria-hidden="true"></span></div>
+          <div id="board" class="board" role="group" aria-label="Tabuleiro de xadrez"></div>
+          <div class="board-footer"><span id="last-move">Posição inicial</span><span>CHESS LAB / 64 CASAS</span></div>
+          <p id="game-error" class="error" role="alert"></p>
+          <button id="reconnect" class="button secondary" hidden>Reconectar esta aba</button>
+        </div>
+
+        <aside class="hint-panel panel">
+          <div class="panel-heading"><span class="eyebrow">UM NOVO OLHAR</span><span class="hint-symbol" aria-hidden="true">✧</span></div>
+          <h2 id="hint-heading">Observe antes<br>de mover.</h2>
+          <p id="hint-intro" class="muted">Uma pista de cada vez, para você descobrir seu próximo lance.</p>
+          <div id="reveal-content" class="reveal-content" aria-live="polite" hidden></div>
+          <ol class="hint-steps"><li data-level="1"><span>01</span> Observe</li><li data-level="2"><span>02</span> Olhe mais perto</li><li data-level="3"><span>03</span> Entenda a ideia</li><li data-level="4"><span>04</span> Uma possibilidade</li></ol>
+          <div id="hint-content" class="hint-content" aria-live="polite"><p>Quando for sua vez, peça uma dica para explorar a posição.</p></div>
+          <button id="hint" class="button secondary full" disabled>Pedir dica <span aria-hidden="true">✧</span></button>
+          <p id="analysis-status" class="quiet" role="status"></p>
+          <button id="reveal" class="text-button reveal-button" disabled>Revelar uma possibilidade</button>
+          <p class="quiet">As pistas ajudam a encontrar a ideia. O lance só aparece se você escolher revelá-lo.</p>
+        </aside>
+      </div>
+      <div class="theme-keepsake" aria-hidden="true"><span id="theme-note"></span></div>
+    </section>
+  </main>
+  <footer class="site-footer"><span>CHESS LAB</span><span>Um espaço para jogar e aprender juntos.</span><span>FEITO PARA DOIS</span></footer>
+  <dialog id="promotion-dialog" aria-labelledby="promotion-title"><form method="dialog"><p class="eyebrow">SEU PEÃO CHEGOU LÁ</p><h2 id="promotion-title">Promover para qual peça?</h2><p class="muted">Escolha a nova peça para concluir o lance.</p><div class="promotion-options"><button class="button secondary" value="q">Dama</button><button class="button secondary" value="r">Torre</button><button class="button secondary" value="b">Bispo</button><button class="button secondary" value="n">Cavalo</button></div><button class="text-button" value="cancel">Cancelar</button></form></dialog>
+  <dialog id="reveal-dialog" aria-labelledby="reveal-title" aria-describedby="reveal-description"><form method="dialog">
+    <div class="reveal-mark" aria-hidden="true">✧</div>
+    <p class="eyebrow">UMA ESCOLHA PARA APRENDER</p><h2 id="reveal-title">Revelar uma possibilidade?</h2>
+    <p id="reveal-description" class="muted">Esta opção mostra uma jogada calculada para a posição atual. Ao vê-la, você pratica menos o caminho de encontrar o lance por conta própria. Para explorar a ideia, experimente as pistas primeiro.</p>
+    <p class="muted">Você escolhe o que ajuda mais neste momento.</p>
+    <div class="dialog-actions"><button class="button primary" value="cancel" autofocus>Continuar pensando</button><button class="button secondary" value="confirm">Mostrar jogada mesmo assim</button></div>
+  </form></dialog>
+</body>
+</html>

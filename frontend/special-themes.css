@@ -1,0 +1,143 @@
+/* V1.2 — cenários e recortes originais, subordinados ao tabuleiro.
+   A estrutura de jogo continua compartilhada por todos os temas. */
+.theme-caption, .theme-keepsake { display: none; }
+[data-theme="elmore"] {
+  --bg: #111d26; --panel: #172a36; --line: #3d5d6d;
+  --text: #eef2df; --muted: #b7ccd5; --accent: #69c8ff;
+  --hint: #e9a8bd; --board-light: #eef2df; --board-dark: #5f9fb5;
+  --board-last: #f0d76a; --board-hint: #9fdbb2;
+  --scene: url('/static/scenes/school.svg'); --scene-size: 340px 476px;
+  --paper: #eef2df; --tape: #f0d76a; --scene-edge: #bc747a;
+}
+[data-theme="watterson"] {
+  --bg: #1e252f; --panel: #172336; --line: #64574f;
+  --text: #f3e7d2; --muted: #d1c3b4; --accent: #e9bf88;
+  --hint: #d9a3b8; --board-light: #f3e7d2; --board-dark: #a18568;
+  --board-last: #ead078; --board-hint: #9fdbb2; --board-check: #ed9988;
+  --scene: url('/static/scenes/cozy.svg'); --scene-size: 100% 100%;
+  --paper: #f3e7d2; --tape: #d9a3b8; --scene-edge: #a58466;
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .game { padding-bottom: 36px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .game-layout {
+  padding: 25px 20px 32px;
+  background: var(--scene) center top / var(--scene-size) repeat;
+  border: 1px solid var(--scene-edge);
+  border-radius: 6px 12px 7px 10px;
+  gap: 18px;
+  box-shadow: inset 0 0 35px #241b2340;
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .theme-caption {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin: 0 0 -4px 10px; position: relative; z-index: 1;
+}
+.theme-caption strong {
+  position: relative; padding: 9px 25px 10px 16px;
+  color: #172336; background: var(--paper);
+  font: 800 18px/1.2 'Trebuchet MS', sans-serif;
+  letter-spacing: .4px; transform: rotate(-1deg);
+  clip-path: polygon(1% 3%, 98% 0, 100% 18%, 98% 35%, 100% 63%, 98% 83%, 99% 100%, 0 96%, 1% 75%, 0 44%);
+}
+.theme-caption > span { font-size: 11px; color: var(--muted); padding-right: 10px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .board-section {
+  background: var(--panel); border: 1px solid var(--line); padding: 12px;
+  border-radius: 9px 12px 8px 11px; box-shadow: 3px 5px 0 #10182055;
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .room-panel {
+  border-radius: 8px 11px 7px 9px; box-shadow: 3px 5px 0 #10182055;
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .board-heading { padding: 0 2px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .board { border-width: 4px; border-radius: 5px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .board-footer { gap: 8px; color: var(--muted); }
+:is([data-theme="elmore"], [data-theme="watterson"]) .board-footer > span:last-child { letter-spacing: .6px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .theme-keepsake {
+  display: flex; align-items: center; justify-content: center; gap: 24px; min-height: 75px;
+  color: var(--accent); font: 700 15px/1.4 'Trebuchet MS', sans-serif;
+}
+.theme-keepsake::before { content: ''; width: 150px; height: 58px; background: url('/static/scenes/stickers.svg') center / contain no-repeat; transform: rotate(-5deg); }
+[data-theme="watterson"] .theme-keepsake::before { transform: rotate(4deg); }
+[data-theme="watterson"] .version { background: #d9a3b8; color: #172336; transform: rotate(4deg); border: 0; }
+[data-theme="elmore"] .version { background: #f0d76a; color: #172336; border: 0; }
+/* Leitura sobre papel pautado. Tokens locais mantêm controles e texto acessíveis. */
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel {
+  --text: #172336; --muted: #495660; --hint: #74425b; --line: #bac3bd;
+  --accent: #203b4a; --panel: var(--paper);
+  position: relative; color: var(--text); border-color: #e6dac0;
+  border-radius: 3px 7px 5px 2px; box-shadow: 3px 5px 0 #10182055;
+  background: repeating-linear-gradient(0deg, transparent 0 27px, #6394a51b 27px 28px), var(--paper);
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel::before {
+  content: ''; position: absolute; width: 70px; height: 22px; top: -11px; left: 28px;
+  background: var(--tape); opacity: .93; transform: rotate(-6deg);
+  clip-path: polygon(0 0, 100% 4%, 96% 25%, 100% 49%, 95% 73%, 98% 100%, 0 94%, 4% 73%, 0 51%, 4% 23%);
+}
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel .panel-heading::after { content: none; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel .panel-heading { margin-bottom: 10px; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel h2 {
+  background: #f5e7ae; padding: 12px 10px; margin: 0 -5px 14px;
+  border-bottom: 1px solid #bca96e; border-radius: 2px 0 3px 1px;
+  font-family: 'Trebuchet MS', sans-serif; font-size: 25px; line-height: 1.12;
+  transform: rotate(-1deg);
+}
+[data-theme="watterson"] .hint-panel h2 { background: #eddbb5; transform: rotate(1deg); }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-content { color: #263b47; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-steps span { background: #203b4a; color: #f3e7d2; border-color: #203b4a; box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px #bac3bd; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-steps .revealed span { color: #172336; background: #b4d4b5; border-color: #477356; }
+:is([data-theme="elmore"], [data-theme="watterson"]) #hint { background: #203b4a; color: #f3e7d2; border: 1px solid #203b4a; }
+:is([data-theme="elmore"], [data-theme="watterson"]) #hint:hover:not(:disabled) { background: #335566; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel .reveal-button:hover:not(:disabled) { color: #513044; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel :focus-visible { outline-color: #275d78; }
+:is([data-theme="elmore"], [data-theme="watterson"]) .quiet { color: var(--muted); }
+/* O modal usa a mesma linguagem de papel, com hierarquia deliberada nas ações. */
+#reveal-dialog { --text: #172336; --muted: #495660; --hint: #74425b; --accent: #203b4a; background: #f4efdf; color: var(--text); border: 3px solid #e2d9c4; border-radius: 9px 13px 8px 11px; }
+#reveal-dialog::backdrop { background: #09151cd9; }
+#reveal-dialog .primary { background: #203b4a; color: #fff4df; }
+#reveal-dialog .primary:hover { background: #335566; }
+#reveal-dialog .secondary { background: #e4a4bb; color: #272434; border-color: #cf8fa8; }
+#reveal-dialog .secondary:hover { background: #edbed0; }
+#reveal-dialog :focus-visible { outline: 3px solid #275d78; outline-offset: 3px; }
+.reveal-mark { width: 45px; height: 45px; display: grid; place-items: center; margin-bottom: 12px; border: 2px solid #a85f7c; border-radius: 10px 14px 10px 13px; color: #74425b; font: 700 27px/1 Georgia, serif; transform: rotate(-7deg); }
+/* Fonte e destino permanecem distintos também sem percepção das cores. */
+.square.hint-square.hint-from { background: #edda83; box-shadow: inset 0 0 0 3px #736128; }
+.square.hint-square.hint-to { background: #a8d4aa; box-shadow: inset 0 0 0 3px #376342; }
+.square.hint-from::before, .square.hint-to::before { border-color: #364833; }
+.square .reveal-marker { position: absolute; top: 2px; right: 2px; z-index: 3; width: 17px; height: 17px; display: grid; place-items: center; background: #253b38; color: #fff7df; border-radius: 50%; font: 700 11px/1 Arial, sans-serif; pointer-events: none; }
+.square.check .reveal-marker { top: auto; bottom: 3px; }
+.square.hint-square .coord { color: #192820; text-shadow: none; }
+.square.selected.hint-square { box-shadow: inset 0 0 0 3px #342d19, inset 0 0 0 6px #fff1be; }
+.square.check.hint-square { background: var(--board-check); }
+.reveal-legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; margin-bottom: 12px; }
+.reveal-legend span { padding: 3px 7px; color: #172336; border-radius: 4px; background: #edda83; }
+.reveal-legend span + span { background: #a8d4aa; }
+@media (max-width: 1100px) {
+  :is([data-theme="elmore"], [data-theme="watterson"]) .game-layout { padding: 20px 12px 24px; gap: 16px; }
+}
+@media (max-width: 720px) {
+  :is([data-theme="elmore"], [data-theme="watterson"]) .game-layout { padding: 16px 8px; gap: 18px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .board-section { padding: 8px 5px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .board { border-width: 2px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel { margin-top: 3px; padding: 18px 14px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .hint-panel h2 { font-size: 24px; }
+  .theme-caption strong { font-size: 15px; padding-left: 12px; }
+  .theme-caption > span { display: none; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .theme-keepsake { gap: 10px; font-size: 12px; }
+  .theme-keepsake::before { width: 105px; height: 50px; }
+  [data-theme="watterson"] { --scene-size: auto 880px; }
+  .square .reveal-marker { width: 14px; height: 14px; font-size: 9px; }
+}
+@media (min-width: 721px) {
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel { padding: 18px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel .rule { margin: 15px 0; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel p { margin-bottom: 10px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel .player-list { gap: 8px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel .appearance-controls { margin-top: 14px; padding-top: 2px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel .appearance-fields { gap: 6px; }
+  :is([data-theme="elmore"], [data-theme="watterson"]) .room-panel .quiet { font-size: 11px; }
+}
+@media (min-width: 1101px) {
+  :is([data-theme="elmore"], [data-theme="watterson"]) .game-layout { grid-template-columns: minmax(190px,220px) minmax(310px,610px) minmax(230px,280px); }
+}
+.hint-panel:has(#reveal-content:not([hidden])) .hint-content { max-height: 150px; }
+.reveal-content { animation: gentle-in var(--motion-base) ease-out; }
+@media (prefers-reduced-motion: reduce) { .reveal-content { animation: none; } }
+
+.square.check.hint-square::before { inset: auto; top: 2px; right: 2px; border: 0; }

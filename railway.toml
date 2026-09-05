@@ -1,0 +1,14 @@
+# https://docs.railway.com/config-as-code/reference
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+numReplicas = 1
+healthcheckPath = "/api/health"
+healthcheckTimeout = 120
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 10
+sleepApplication = false
+overlapSeconds = 0
+drainingSeconds = 20
