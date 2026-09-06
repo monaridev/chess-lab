@@ -1,113 +1,121 @@
 # ChessLab — Modo Solo Offline
 
 ## Visão
-O Modo Solo Offline permite que uma pessoa jogue xadrez sozinha contra um adversário controlado por Stockfish, sem depender de outra pessoa, sem conta, sem API externa e sem internet para a lógica da partida.
+O modo Solo permite jogar xadrez sem depender de outra pessoa e sem depender de internet, APIs pagas, LLMs ou banco de dados.
 
-O Professor Pogona continua sendo o guia pedagógico da experiência. O Stockfish é apenas o adversário.
+O adversário é controlado por Stockfish local. O Professor Pogona continua sendo o professor da experiência e acompanha a partida inteira, analisando cada jogada do jogador e oferecendo um comentário curto e específico sobre o que aconteceu de fato no tabuleiro.
 
-## Objetivo do produto
-Criar uma forma simples e acolhedora de praticar xadrez sozinho, mantendo a proposta principal do ChessLab: aprender jogando.
+## Objetivos do produto
+- permitir partidas completas offline;
+- oferecer níveis de dificuldade previsíveis;
+- ajudar o jogador a aprender com cada lance;
+- transformar análise de engine em explicações curtas e compreensíveis;
+- manter a experiência simples, sem conta, ranking ou cadastro;
+- preservar os modos Normal, Assistido e Aprender já existentes.
 
-O modo deve ajudar o jogador a:
-- praticar partidas completas;
-- aplicar o que aprendeu no modo Aprender;
-- desenvolver autonomia;
-- reconhecer ameaças, peças indefesas e padrões básicos;
-- ganhar confiança sem enfrentar um adversário excessivamente forte.
+## Fluxo principal
+1. usuário abre o ChessLab;
+2. escolhe `Modo Solo`;
+3. escolhe a dificuldade do adversário;
+4. inicia a partida;
+5. após cada jogada do usuário, o sistema analisa o lance;
+6. aparece uma classificação curta da jogada;
+7. o Professor Pogona muda de pose e comenta a jogada em um balão de fala;
+8. Stockfish responde;
+9. a partida continua;
+10. ao final, o sistema mostra precisão e resumo da partida.
 
-## Princípio central
-O usuário joga contra o Stockfish, mas aprende com o Pogona.
+## Dificuldades sugeridas
+- Iniciante
+- Fácil
+- Médio
+- Difícil
 
-Separação de responsabilidades:
-- **Stockfish**: escolhe os lances do adversário;
-- **Professor Pogona**: observa, explica, alerta, elogia e oferece pistas;
-- **ChessLab**: mantém regras, tabuleiro, progresso e interface.
+Os níveis não usam Elo público. A força deve ser configurada internamente com parâmetros do Stockfish e/ou seleção controlada entre lances candidatos.
 
-## Fluxo ideal
-1. Abrir o ChessLab.
-2. Entrar em `Jogar Solo`.
-3. Escolher nível do adversário.
-4. Escolher ajuda do Pogona.
-5. Iniciar partida.
-6. Jogar normalmente.
-7. Receber orientação pedagógica quando necessário.
-8. Finalizar a partida.
-9. Ver um resumo curto de aprendizado.
+## Classificação dos lances
+A classificação deve pertencer ao ChessLab e não copiar nomenclatura ou identidade visual de terceiros.
 
-## Níveis iniciais
-### Nível 1 — Primeiro jogo
-- adversário muito fraco;
-- permite erros óbvios;
-- Pogona oferece bastante orientação;
-- indicado para quem ainda está aprendendo a enxergar ameaças.
+Sugestão:
+- Genial
+- Excelente
+- Muito boa
+- Boa
+- Interessante
+- Imprecisa
+- Erro
+- Grave
 
-### Nível 2 — Iniciante
-- adversário joga lances razoáveis;
-- ainda comete erros simples;
-- Pogona intervém em erros importantes.
+Também podem existir marcadores contextuais separados da nota:
+- Forçada
+- Única
+- Desenvolvimento
+- Roque
+- Tática
+- Mate encontrado
 
-### Nível 3 — Intermediário leve
-- adversário mais consistente;
-- menos erros gratuitos;
-- Pogona fala menos e prioriza raciocínio.
+## Professor Pogona
+O Pogona fica visível 100% do tempo no modo Solo.
 
-### Nível 4 — Desafio
-- adversário forte o bastante para exigir atenção;
-- ajuda pedagógica mínima por padrão;
-- não deve necessariamente usar a força máxima do Stockfish.
+Ele não deve apenas mostrar frases predefinidas com base na nota. O comentário deve ser gerado a partir das evidências reais encontradas na posição.
 
-## Modos de ajuda do Pogona
-### Guiado
-- pode alertar antes de um erro grave;
-- oferece pistas progressivas;
-- pode permitir nova tentativa em alguns exercícios ou partidas de treino.
+Exemplos:
+- `Excelente` + desenvolvimento + centro -> "Você desenvolveu o cavalo e ganhou mais controle do centro."
+- `Erro` + peça pendurada -> "Esse lance deixou sua torre sem defesa e ela pode ser capturada."
+- `Imprecisa` + oportunidade perdida -> "Seu lance é seguro, mas havia uma chance de pressionar a dama."
+- `Boa` + segurança do rei -> "Boa. Você deixou seu rei mais seguro sem enfraquecer suas peças."
 
-### Assistido
-- não impede jogadas;
-- explica depois de erros relevantes;
-- oferece dicas sob demanda.
+## Experiência visual
+Após a jogada:
+1. a casa do último lance permanece marcada;
+2. aparece uma pequena classificação da jogada;
+3. o Pogona troca para a pose adequada;
+4. o balão mostra uma frase curta;
+5. a análise não deve bloquear o fluxo da partida por tempo excessivo.
 
-### Livre
-- partida praticamente normal;
-- Pogona aparece visualmente, mas interfere pouco;
-- resumo pedagógico ao final.
-
-## Comportamento do Professor Pogona
-O personagem deve permanecer visível durante toda a partida Solo.
-
-Ele pode usar estados como:
-- observando;
-- pensando;
-- alertando;
-- ensinando;
-- elogiando;
-- comemorando.
-
-O personagem não deve cobrir o tabuleiro nem interromper toda jogada.
-
-## Perguntas que o Pogona deve reforçar
-- Meu rei está seguro?
-- Tem peça minha em perigo?
-- O adversário ameaça o quê?
-- Consigo capturar algo sem perder mais?
-- Qual peça minha está menos ativa?
+## Poses do Pogona por contexto
+- Excelente / Muito boa -> elogiando
+- Boa -> feliz
+- Interessante / Imprecisa -> pensando
+- Erro / Grave -> alerta
+- analisando posição -> observando
+- explicação de conceito -> ensinando
+- vitória / conclusão -> comemorando
 
 ## Pós-partida
-Ao terminar, mostrar um resumo simples, por exemplo:
-- ameaças percebidas;
-- peças deixadas sem defesa;
-- boas decisões de desenvolvimento;
-- segurança do rei;
-- táticas encontradas;
-- pontos a treinar.
+Mostrar um resumo simples:
 
-O resumo não deve virar uma análise técnica pesada com centipawns e números difíceis.
+- resultado;
+- precisão estimada da partida;
+- quantidade de lances por classificação;
+- principais acertos;
+- principais pontos a melhorar;
+- conceitos mais recorrentes na partida.
 
-## Fora do escopo inicial
-- matchmaking;
-- ranking/ELO;
-- conta de usuário;
-- banco de dados;
-- IA generativa para escolher jogadas;
-- personalidade conversacional via API externa;
-- força máxima competitiva do Stockfish.
+Exemplo:
+
+```text
+Precisão: 84%
+
+Excelente: 4
+Muito boas: 7
+Boas: 9
+Imprecisas: 3
+Erros: 1
+Graves: 0
+
+Ponto forte: desenvolvimento
+A melhorar: peças sem defesa
+```
+
+## Persistência
+Sem banco de dados.
+
+Pode usar `localStorage` apenas para dados locais opcionais, como:
+- número de partidas solo;
+- melhor precisão;
+- média recente;
+- dificuldade usada por último;
+- estatísticas simples por conceito.
+
+Nenhuma conta é necessária.
