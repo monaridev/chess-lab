@@ -111,3 +111,24 @@ Não considera o uso de dicas como penalidade; não mede habilidade ou rating.
 Comentários são determinísticos e descrevem evidências reais. Captura possível
 não significa ganho forçado; a linguagem preserva essa diferença. Sacrifícios
 não recebem erro só por oferecer material: a avaliação determina a perda.
+
+## D17 — Revisão visual do Solo sem mudar as regras
+A preparação usa opções segmentadas de dificuldade/cor/ajuda e prévias de temas
+e skins. A aparência utiliza os controles, tokens, assets e chave
+`chesslab.appearance.v1` já existentes; não há preferência visual paralela.
+
+Desktop prioriza três colunas: Pogona e nota, tabuleiro, ajuda e ações. A partida
+ocupa uma altura fixa na viewport. O tabuleiro se dimensiona pela célula central,
+preservando as oito fileiras. Histórico abre somente por solicitação em um modal
+com rolagem interna. O resultado abre automaticamente em outro modal, com chips
+de classificação e acesso à análise completa. Esses painéis não alongam a página.
+
+No mobile, Pogona ocupa uma faixa própria acima do tabuleiro. Ajuda e ações
+adicionais são recolhidas; a preparação pode rolar dentro de sua área, com o
+botão de iniciar acessível. Os modais ficam abaixo do professor, com altura
+limitada. Dialogs nativos fornecem Escape e contenção do foco.
+
+As referências em `chesslab_solo_ui_refs/` orientam hierarquia e composição,
+sem incorporar navegação, Elo ou funcionalidades ilustradas fora do escopo.
+Stockfish, classificação, comentários, precisão, regras e persistência Solo
+permanecem inalterados nesta revisão visual.

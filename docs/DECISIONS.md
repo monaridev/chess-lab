@@ -242,3 +242,12 @@ força da revisão. Preferências/estatísticas leves são locais ao navegador.
 Renderização do tabuleiro foi extraída de Aprender para `board_view.js`, sem
 alterar suas regras. Os dois modos usam os mesmos assets e layout do Pogona.
 Detalhes e critérios: `solo/DECISIONS.md`, D12–D16, e `solo/IMPLEMENTATION.md`.
+
+## D-028 — UX Solo com altura contida e aparência compartilhada
+**Status:** aceita
+
+Revisão visual autorizada: preparação com opções visuais, partida em três
+colunas, classificação junto do Pogona, histórico sob demanda e resultado em
+modal. Mobile mantém o professor em região própria. Temas/skins reutilizam
+os controles e a persistência existentes. Nenhuma mudança no backend ou nas
+regras aprovadas. Detalhes em `solo/DECISIONS.md`, D17.

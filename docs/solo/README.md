@@ -10,6 +10,8 @@ Arquivos:
 - `TESTING.md` — critérios de teste e regressão;
 - `IMPLEMENTATION_PROMPT.md` — prompt curto para iniciar a implementação.
 
-Estado: **implementado localmente, aguardando revisão**.
+Estado: **implementado e revisado pelo usuário; publicação autorizada**.
 
 Consulte `IMPLEMENTATION.md` para execução, arquitetura, testes e limitações.
+
+Revisão visual e validação final: `UI_REVIEW.md`.

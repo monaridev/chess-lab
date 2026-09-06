@@ -66,3 +66,16 @@ não impede jogar; pode impedir retomada e salvar estatísticas.
 - `tests/test_browser_solo.py`: fluxo real, comentário de torre exposta, mate,
   subpromoção, resumo, storage, layouts e recuperação de resposta perdida.
   Requisições fora do servidor local são bloqueadas nesses testes.
+
+## Revisão visual/UX
+
+A preparação usa opções segmentadas e amostras visuais de todos os temas/skins
+existentes. Durante a partida, o botão Aparência abre os mesmos controles num
+modal. A chave de aparência é a compartilhada `chesslab.appearance.v1`.
+
+O histórico fica fechado por padrão e abre em modal próprio. O resultado abre
+em modal automaticamente; é possível fechá-lo, reabri-lo, acessar a análise
+completa ou iniciar outra partida. A página principal não cresce com o histórico.
+Em telas pequenas, modais têm rolagem interna e a ajuda adicional é recolhida.
+
+Relatório e screenshots da revisão: `UI_REVIEW.md`.

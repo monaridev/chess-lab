@@ -1,6 +1,7 @@
 # Entrega Solo Offline — 6 de setembro de 2026
 
-Implementado localmente, sem commit nem push.
+Registro da primeira entrega, anterior à autorização de publicação.
+A revisão visual e o encerramento estão em `UI_REVIEW.md`.
 
 ## Resultado
 Modo Solo com quatro dificuldades Stockfish, seleção de cor, revisão obrigatória
@@ -71,4 +72,4 @@ processos de teste, sem desligar interfaces ou alterar configurações do sistem
   evitando inventar uma causa tática. Ver `IMPLEMENTATION.md` para cobertura.
 - Os testes de partida usam automação; não houve teste com dois dispositivos
   físicos nesta entrega. Multiplayer foi validado por HTTP/WebSocket e Chromium.
-- Revisão do usuário e autorização de commit/push continuam pendentes.
+- Revisão e autorização de commit/push foram concedidas posteriormente; ver `UI_REVIEW.md`.
