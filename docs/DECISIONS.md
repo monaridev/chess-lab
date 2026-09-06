@@ -213,3 +213,17 @@ uma área permanente fora do conteúdo rolável e do tabuleiro. Não há mudanç
 no protocolo multiplayer nem na análise opcional dos modos existentes.
 
 Detalhes, limites e expansão em `pogona/IMPLEMENTACAO.md`.
+
+## D-026 — Falas ancoradas ao Professor Pogona
+**Status:** aceita
+
+No modo Aprender, falas aparecem em um balão com ponta próxima à cabeça do
+personagem. Abaixo dele permanece apenas o status curto. Desktop usa o balão
+acima; mobile e janelas baixas usam o balão ao lado, na área fixa do professor,
+fora do conteúdo rolável e sem sobrepor o tabuleiro.
+
+O objetivo textual da lição permanece. Ao abrir, retomar, reiniciar ou avançar
+uma lição, o Pogona também apresenta o objetivo no balão. Essa mensagem tem
+prioridade até uma tentativa de lance: selecionar/trocar peças ou pedir dicas
+não a dispensa; escolher um destino ilegal ou enviar uma jogada a dispensa.
+Depois disso, o balão acompanha as falas de observação, alerta e feedback.

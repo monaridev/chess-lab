@@ -3,7 +3,7 @@
   "use strict";
   const el = (id) => document.getElementById(id);
   const KEY = "chesslab.learning.v1";
-  const poses = {idle: "No seu ritmo", pensando: "Pensando", alerta: "Vamos rever", observando: "Observando", ensinando: "Uma pista de cada vez", elogiando: "Boa descoberta!", comemorando: "Capítulo concluído!"};
+  const poses = {idle: "Observando", pensando: "Pensando", alerta: "Alertando", observando: "Observando", ensinando: "Ensinando", elogiando: "Elogiando", comemorando: "Comemorando"};
   let progress = {chapters: {}}, chapters = [], current = null, lesson = null;
   let selected = null, busy = false, review = false, visible = false, generation = 0, revealed = null;
   try {
@@ -18,6 +18,8 @@
     try { localStorage.setItem(KEY, JSON.stringify(progress)); el("learn-storage").textContent = "Progresso salvo neste navegador."; }
     catch (_) { el("learn-storage").textContent = "O navegador não permitiu salvar. Você pode continuar, mas o progresso será perdido ao recarregar."; }
   }
+  // Selecting a piece or asking for help is not a move attempt.
+  let introObjective = null;
   const poseImages = new Map();
   let poseVersion = 0;
   function preload(state) {
@@ -34,7 +36,12 @@
     preload(state).then(src => { if (src && version === poseVersion) el("pogona-pose").src = src; });
     el("pogona-pose").alt = `Professor Pogona — ${poses[state]}`;
     el("pogona-state").textContent = poses[state];
-    el("pogona-speech").textContent = message;
+    el("pogona-speech").textContent = introObjective || message;
+  }
+
+  function presentObjective() {
+    introObjective = lesson.objective;
+    pose("ensinando", introObjective);
   }
 
   function controls() {
@@ -49,6 +56,7 @@
   }
   async function request(action = "state", move = null) {
     if (busy || !current) return;
+    if (action === "move") introObjective = null;
     busy = true;
     const ticket = ++generation, id = current;
     controls();
@@ -77,6 +85,7 @@
       } else {
         pose(data.complete ? "comemorando" : "observando", data.complete ? "Cada passo conta! Você pode revisitar este capítulo ou explorar outro." : "Antes de jogar, olhe seu rei e as peças em perigo.");
       }
+      if (action === "state" && !data.complete) presentObjective();
       render(action);
     } catch (error) {
       if (ticket !== generation || !visible) return;
@@ -143,6 +152,7 @@
     if (focus) el("learn-board").querySelector(`[data-square="${focus}"]`)?.focus({preventScroll: true});
   }
   function showCatalog() {
+    introObjective = null;
     generation++; busy = false; current = null; lesson = null; review = false; selected = null; revealed = null;
     el("learn-home").hidden = false; el("learn-lesson").hidden = true; el("learn-chapters").hidden = true;
     el("learn-error").textContent = ""; el("learn-catalog").replaceChildren();
@@ -161,6 +171,7 @@
     el("learn-scroll").scrollTop = 0;
   }
   function openChapter(id) {
+    introObjective = null;
     generation++; busy = false; current = id; lesson = null; review = false; selected = null; revealed = null;
     el("learn-home").hidden = true; el("learn-lesson").hidden = false; el("learn-chapters").hidden = false;
     el("learn-board").replaceChildren(); el("learn-title").textContent = "Preparando lição…";
@@ -189,7 +200,7 @@
   el("learn-next").addEventListener("click", () => {
     if (lesson.complete) { showCatalog(); return; }
     review = false; selected = null; revealed = null; render("state"); controls();
-    pose("observando", "Nova posição, a mesma rotina: rei seguro, peças protegidas e atenção às ameaças.");
+    presentObjective();
     el("learn-title").focus();
   });
   el("learn-board").addEventListener("click", event => {
@@ -202,6 +213,7 @@
       selected = selected === square ? null : square; el("learn-error").textContent = "";
       pose("observando", "O que muda se essa peça sair daqui? Confira os destinos destacados.");
     } else {
+      if (selected) introObjective = null;
       el("learn-error").textContent = piece && !selected ? "Essa peça pertence ao outro jogador." : "Escolha uma peça branca e um destino destacado. Seu rei deve ficar seguro.";
       pose("alerta", "Pense com calma. Nem todo destino é permitido: observe o movimento da peça e a segurança do rei.");
     }

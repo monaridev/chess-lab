@@ -133,3 +133,62 @@ def test_learning_failed_request_can_retry(browser, live_server):
         context.set_offline(False)
         page.locator('#learn-hint').click()
         expect(page.locator('#learn-hints li')).to_have_count(1)
+
+
+def test_objective_stays_in_bubble_until_move_attempt(pages):
+    page, mobile, _, _ = pages
+    for player in (page, mobile):
+        enter(player)
+        objective = player.locator('#learn-objective').inner_text()
+        expect(player.locator('.pogona-bubble #pogona-speech')).to_have_text(objective)
+        player.locator('#learn-board [data-square="e2"]').click()
+        expect(player.locator('#pogona-speech')).to_have_text(objective)
+        player.locator('#learn-hint').click()
+        expect(player.locator('#learn-hints li')).to_have_count(1)
+        expect(player.locator('#pogona-speech')).to_have_text(objective)
+        player.locator('#learn-scroll').evaluate('el => el.scrollTop = el.scrollHeight')
+        expect(player.locator('#pogona-speech')).to_be_in_viewport()
+        # Asking for a hint clears selection, so select again before attempting.
+        player.locator('#learn-board [data-square="e2"]').click()
+        player.locator('#learn-board [data-square="e5"]').click()
+        expect(player.locator('#pogona-state')).to_have_text('Alertando')
+        expect(player.locator('#pogona-speech')).not_to_have_text(objective)
+        expect(player.locator('#learn-objective')).to_have_text(objective)
+        player.locator('#learn-board [data-square="e4"]').click()
+        expect(player.locator('#learn-next')).to_be_visible()
+        expect(player.locator('#pogona-speech')).to_have_text(player.locator('#learn-feedback').inner_text())
+        player.locator('#learn-next').click()
+        expect(player.locator('#pogona-speech')).to_have_text('Capture o peão indefeso com a torre.')
+        player.locator('#learn-restart').click()
+        expect(player.locator('#pogona-speech')).to_have_text(objective)
+        player.locator('#learn-chapters').click()
+        expect(player.locator('#pogona-speech')).to_contain_text('Escolha um capítulo')
+
+
+def test_bubble_and_long_objectives_fit_viewport(pages):
+    page, _, _, _ = pages
+    enter(page, 'guiada')
+    chapter = next(c for c in CHAPTERS if c.id == 'guiada')
+    for ex in chapter.exercises[:-1]:
+        move(page, ex.answers[0])
+        page.locator('#learn-next').click()
+    objective = chapter.exercises[-1].objective
+    expect(page.locator('#pogona-speech')).to_have_text(objective)
+    for width, height in [(320, 568), (390, 844), (720, 900), (844, 390), (1024, 768), (1440, 1000)]:
+        page.set_viewport_size({'width': width, 'height': height})
+        for scroll in [0, 5000]:
+            page.locator('#learn-scroll').evaluate('(el, y) => el.scrollTop = y', scroll)
+            bubble = page.locator('.pogona-bubble').bounding_box()
+            portrait = page.locator('#pogona-pose').bounding_box()
+            content = page.locator('#learn-scroll').bounding_box()
+            assert bubble['x'] >= 0 and bubble['y'] >= 0
+            assert bubble['x'] + bubble['width'] <= width
+            assert bubble['y'] + bubble['height'] <= height
+            # Separate layout cells prevent overlap even when the board scrolls.
+            assert (bubble['x'] + bubble['width'] <= content['x'] or
+                    bubble['y'] + bubble['height'] <= content['y'])
+            assert (bubble['y'] + bubble['height'] <= portrait['y'] or
+                    portrait['x'] + portrait['width'] <= bubble['x'])
+            assert page.locator('#pogona-speech').evaluate('el => el.scrollHeight <= el.clientHeight')
+            expect(page.locator('#pogona-speech')).to_have_text(objective)
+        page.locator('#learn-scroll').evaluate('el => el.scrollTop = 0')

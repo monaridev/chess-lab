@@ -264,3 +264,13 @@ Capturas locais inspecionadas: `artifacts/learning-desktop.png`,
 `git diff --check` passou; módulos Python novos compilam. Node não está
 instalado, portanto o JavaScript foi validado pela execução real no Chromium.
 Não houve teste manual em dois aparelhos físicos nesta implementação.
+
+## Balões do Pogona
+
+Após a mudança de UX, `.venv/bin/pytest -q`: **157 passed**, 137,25 s,
+os mesmos dois avisos conhecidos de dependências. Dois testes novos cobrem
+objetivo no balão até a tentativa (incluindo destino ilegal), seleção e pedido
+de dica sem dispensá-lo, feedback após tentativa, próxima lição, reinício e
+retorno ao catálogo, em desktop e mobile. Também verificam objetivo extenso
+legível, balão dentro da viewport e separado do personagem/conteúdo rolável
+nas seis dimensões acima. Capturas desktop/mobile atualizadas e inspecionadas.

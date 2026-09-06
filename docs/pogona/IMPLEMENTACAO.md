@@ -90,3 +90,17 @@ abandonada não atualizam a nova tela.
 - Progresso não sincroniza entre navegadores; limpar dados locais o remove.
 - A validação responsiva usa Chromium com emulação de viewport/toque; teste
   manual em dois aparelhos físicos continua recomendado antes de publicar.
+
+## Balões e apresentação do objetivo
+
+As falas ficam em `.pogona-bubble`, ancorada visualmente à cabeça. O status
+curto é o único texto abaixo do personagem. A posição do balão muda de acima
+para ao lado em telas de até 720 px ou janelas de até 500 px de altura. Ambos
+permanecem na área fixa do professor, sem invadir o tabuleiro. Falas extensas
+podem rolar dentro do balão, sem deslocar o personagem para fora da viewport.
+
+`introObjective` mantém o objetivo no balão até a primeira tentativa de lance,
+inclusive ilegal. Selecionar ou desselecionar peças e pedir pistas mantém o
+objetivo. Abrir, retomar, reiniciar e avançar lições apresenta o novo objetivo.
+O texto de `#learn-objective` continua na lição. A região de fala usa anúncio
+acessível `aria-live="polite"`, sem temporizadores para apagar mensagens.
