@@ -1,102 +1,89 @@
-# ChessLab — Modo Solo Offline — Testes e Critérios de Aceite
+# ChessLab Solo — Plano de testes
 
 ## Objetivo
-Garantir que o novo modo Solo funcione sem quebrar os modos existentes.
+Validar que o modo Solo funciona corretamente, permanece offline e não causa regressões.
 
-## Testes de backend
-### Criação de partida Solo
-- cria tabuleiro em posição inicial válida;
-- define lado do usuário corretamente;
-- aplica nível selecionado;
-- rejeita parâmetros inválidos.
+## Testes de engine
+- Stockfish inicia quando disponível;
+- posição é enviada corretamente;
+- lance retornado é legal;
+- dificuldade altera comportamento;
+- engine é encerrada corretamente;
+- ausência do binário é tratada sem crash.
 
-### Jogadas do usuário
-- aceita lance legal;
-- rejeita lance ilegal;
-- não permite jogar fora do turno;
-- detecta xeque, mate, empate e promoção corretamente.
+## Testes de classificação
+Criar posições controladas para validar:
+- melhor lance -> Excelente/Muito boa;
+- pequena perda -> Boa/Interessante;
+- imprecisão real -> Imprecisa;
+- perda clara de peça -> Erro;
+- blunder grande -> Grave;
+- mate encontrado;
+- mate perdido;
+- lance forçado;
+- sacrifício correto não marcado como erro automaticamente.
 
-### Jogadas do Stockfish
-- retorna somente lances legais;
-- joga apenas no turno correto;
-- respeita fim da partida;
-- trata engine indisponível sem crashar servidor.
-
-### Dificuldade
-- níveis devem produzir configuração diferente da engine;
-- nível mais baixo não deve usar a mesma configuração máxima do nível mais alto.
-
-## Testes de integração
-Fluxo mínimo:
-1. iniciar partida Solo;
-2. usuário realiza lance;
-3. engine responde;
-4. estado recebido pelo cliente corresponde ao backend;
-5. próximo turno volta ao usuário.
-
-Testar também:
+## Testes de conceitos
+Posições específicas para:
+- desenvolvimento;
+- centro;
 - roque;
+- peça pendurada;
+- peça salva;
+- garfo;
+- cravada;
+- captura favorável/desfavorável;
+- segurança do rei;
 - promoção;
-- en passant;
-- xeque-mate;
-- empate quando aplicável.
+- mate.
 
-## Testes pedagógicos
-- Pogona permanece visível;
-- estado muda conforme evento relevante;
-- alerta não bloqueia partida no modo Assistido;
-- modo Guiado pode oferecer intervenção antes de erro conforme design;
-- modo Livre não exibe mensagens excessivas;
-- dicas continuam progressivas.
+## Testes dos comentários
+- comentário corresponde às evidências;
+- não menciona peça/casa inexistente;
+- frase permanece curta;
+- prioridade correta quando há múltiplas evidências;
+- erro grave de rei/material supera observação posicional menor;
+- não depende de rede ou API.
 
-## Testes de frontend
-- botão `Jogar Solo` acessível;
-- seleção de nível funciona;
-- seleção de ajuda funciona;
-- tabuleiro bloqueia durante jogada da engine;
-- loading/estado de pensamento é visível;
-- Pogona não cobre tabuleiro;
-- balões não saem da viewport;
-- interface funciona em desktop e mobile.
+## Testes de precisão
+- partida sem erros graves -> precisão alta;
+- partida com vários erros -> precisão menor;
+- um erro grave tem impacto relevante;
+- posições já completamente perdidas não distorcem excessivamente a métrica;
+- valor sempre limitado a intervalo válido.
 
-## Persistência local
-- nível preferido pode ser salvo;
-- modo de ajuda pode ser salvo;
-- progresso simples sobrevive a reload;
-- dados corrompidos em `localStorage` não quebram a tela.
+## Testes de UI
+- entrada do modo Solo aparece corretamente;
+- seleção de dificuldade funciona;
+- tabuleiro inicia;
+- Pogona fica visível;
+- pose muda após análise;
+- balão mostra comentário;
+- classificação aparece próxima ao contexto da jogada;
+- fluxo continua após feedback;
+- resumo final aparece;
+- mobile não cobre tabuleiro.
 
-## Regressão obrigatória
-Rodar toda a suíte existente e confirmar:
-- Normal funcionando;
-- Assistido funcionando;
-- Aprender funcionando;
-- multiplayer funcionando;
-- reconexão funcionando;
-- hints existentes funcionando.
+## Testes de persistência
+- `localStorage` salva estatísticas opcionais;
+- ausência/limpeza de storage não quebra nada;
+- dados antigos inválidos usam fallback seguro.
 
-## Teste manual recomendado
-### Desktop
-- Chrome/Chromium;
-- Firefox se possível.
+## Regressões obrigatórias
+Executar toda a suíte existente e confirmar:
+- multiplayer continua funcionando;
+- modo Normal continua funcionando;
+- modo Assistido continua funcionando;
+- modo Aprender continua funcionando;
+- dicas existentes permanecem corretas;
+- deploy continua inicializando.
 
-### Mobile
-- largura pequena via DevTools;
-- aparelho físico quando possível.
-
-Verificar:
-- tamanho do tabuleiro;
-- balões do Pogona;
-- botões;
-- rolagem;
-- legibilidade.
-
-## Critérios de aceite da V1 Solo
-A implementação pode ser considerada pronta quando:
-- usuário consegue iniciar partida sem outra pessoa;
-- Stockfish responde com lances válidos;
-- existem pelo menos 3 níveis de força claramente distintos;
-- Pogona funciona nos três modos de ajuda;
-- partida chega ao fim corretamente;
-- resumo pós-partida aparece;
-- nenhum modo existente sofre regressão;
-- testes novos e antigos passam.
+## Teste manual mínimo
+1. jogar uma partida em Iniciante;
+2. cometer propositalmente um erro de peça pendurada;
+3. verificar classificação e comentário;
+4. fazer um bom desenvolvimento;
+5. verificar elogio contextual;
+6. concluir a partida;
+7. conferir precisão e resumo;
+8. desligar internet e repetir o fluxo local.
