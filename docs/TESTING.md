@@ -235,3 +235,32 @@ final são executados no GitHub Actions, pelo workflow `Validate Railway image`.
 Consulte a execução correspondente ao commit antes de implantar. A automação
 não acessa nem autentica no Railway; a seleção do repositório e geração do
 domínio serão feitas pelo proprietário, conforme `RAILWAY.md`.
+
+## Aprender com o Pogona
+
+Validação final desta implementação: `.venv/bin/pytest -q` — **155 passed**,
+116,13 s, dois avisos de depreciação já existentes em Starlette/httpx e AnyIO.
+São 141 testes existentes e 14 novos (incluindo parametrizações). O sandbox
+impediu iniciar Chromium; a execução completa foi autorizada fora dele.
+
+- `test_learning.py`: seis capítulos/19 exercícios, todas as soluções aceitas,
+  posições legais, xeque, mate, roque, garfo, ameaça segura, sequência da partida
+  guiada, pistas progressivas, revelação, rejeições sem avanço, histórico
+  inválido, campos extras e independência das salas.
+- `test_browser_learning.py`: 19 exercícios jogados no Chromium, conclusão
+  dos seis capítulos, progresso após reload, reinício, armazenamento corrompido
+  ou bloqueado, falha de rede/recuperação, revelação confirmada/cancelada,
+  tentativas erradas, volta ao multiplayer e retomada da sala.
+- Responsividade: 320×568, 390×844, 720×900, 844×390, 1024×768 e 1440×1000;
+  professor dentro do viewport mesmo ao rolar o conteúdo, sem sobreposição ao
+  tabuleiro ou overflow horizontal. Imagens carregadas; fluxos normais sem
+  erros de JavaScript/console. Falha de rede é exercitada separadamente.
+- A suíte existente continua cobrindo servidor, HTTP, dois WebSockets, modos
+  Normal/Assistido, regras especiais, sincronização, reconexão e análise/dicas.
+
+Capturas locais inspecionadas: `artifacts/learning-desktop.png`,
+`artifacts/learning-mobile.png` e a entrada atualizada em
+`artifacts/lobby-desktop.png`. Artefatos permanecem ignorados pelo Git.
+`git diff --check` passou; módulos Python novos compilam. Node não está
+instalado, portanto o JavaScript foi validado pela execução real no Chromium.
+Não houve teste manual em dois aparelhos físicos nesta implementação.

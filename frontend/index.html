@@ -9,7 +9,9 @@
   <link rel="stylesheet" href="/static/styles.css">
   <link rel="stylesheet" href="/static/appearance.css">
   <link rel="stylesheet" href="/static/special-themes.css">
+  <link rel="stylesheet" href="/static/learning.css">
   <script src="/static/app.js" defer></script>
+  <script src="/static/learning.js" defer></script>
 </head>
 <body>
   <header class="site-header">
@@ -24,6 +26,7 @@
         <p class="intro">Jogue com alguém. Explore possibilidades.<br>Aprenda a enxergar além da próxima jogada.</p>
         <div class="welcome-details"><span>01 &nbsp; Crie uma sala</span><span>02 &nbsp; Compartilhe o código</span><span>03 &nbsp; Joguem juntos</span></div>
         <div id="resume-box" class="resume-box" hidden><p>Sua sala está guardada nesta aba.</p><button id="resume" class="button secondary">Retomar partida</button></div>
+        <div class="learn-entry panel"><span class="eyebrow">UM PASSO DE CADA VEZ</span><p>Explore o tabuleiro com um professor ao seu lado.</p><button id="learn-open" class="button primary">Aprender com o Pogona →</button><small>6 capítulos interativos · progresso neste navegador</small></div>
         <p class="quiet">Sem cadastro. Sem instalações. Só xadrez.</p>
       </div>
       <div class="entry-panel panel">
@@ -92,6 +95,33 @@
         </aside>
       </div>
       <div class="theme-keepsake" aria-hidden="true"><span id="theme-note"></span></div>
+    </section>
+    <section id="learning" class="learning" aria-label="Aprender com o Pogona" hidden>
+      <aside class="pogona-panel panel" aria-label="Professor Pogona">
+        <img id="pogona-pose" src="/static/assets/pogona/professor_pogona_idle.png" alt="Professor Pogona — pronto para aprender" width="220" height="280">
+        <div class="pogona-voice"><strong>Professor Pogona</strong><span id="pogona-state" class="eyebrow">No seu ritmo</span><p id="pogona-speech" role="status">Oi! Vamos pensar juntos? O tabuleiro sempre dá pistas.</p></div>
+      </aside>
+      <div class="learn-content" id="learn-scroll">
+        <div class="game-topline"><button id="learn-back" class="text-button">← Início</button><span class="eyebrow">APRENDER COM O POGONA</span><button id="learn-chapters" class="text-button" hidden>Capítulos</button></div>
+        <p id="learn-storage" class="quiet" role="status"></p>
+        <p id="learn-error" class="error" role="alert"></p>
+        <div id="learn-home"><h1>Pequenas ideias.<br>Grandes descobertas.</h1><p class="intro">Observe, experimente e entenda. Uma pista de cada vez.</p><p id="learn-progress" class="eyebrow"></p><div id="learn-catalog" class="learn-catalog"></div></div>
+        <div id="learn-lesson" hidden>
+          <p id="learn-chapter-title" class="eyebrow"></p><h2 id="learn-title" tabindex="-1"></h2>
+          <p id="learn-objective"></p>
+          <div class="learn-work">
+            <div><div id="learn-board" class="board" role="group" aria-label="Tabuleiro da lição"></div><p class="quiet">Você joga de brancas. Clique em uma peça e em um destino destacado.</p><p id="learn-feedback" role="status"></p><button id="learn-next" class="button primary" hidden>Próxima lição →</button><button id="learn-restart" class="text-button">Recomeçar capítulo</button></div>
+            <aside class="learn-tools panel">
+              <h3>Antes de mover, pense</h3>
+              <ol class="learn-checklist"><li>Meu rei está seguro?</li><li>Tem peça minha em perigo?</li><li>O adversário ameaça o quê?</li><li>Consigo capturar algo sem perder mais?</li><li>Qual peça minha está menos ativa?</li></ol>
+              <button id="learn-hint" class="button secondary full">Pedir dica</button><ol id="learn-hints" aria-live="polite"></ol>
+              <button id="learn-reveal" class="text-button" hidden>Revelar uma possibilidade</button>
+              <div id="learn-confirm" hidden><p class="quiet">Ver o lance encerra a descoberta desta pista. Quer ver uma possibilidade?</p><button id="learn-reveal-confirm" class="button secondary">Mostrar possibilidade</button><button id="learn-reveal-cancel" class="text-button">Continuar pensando</button></div>
+              <p id="learn-revealed" aria-live="polite"></p>
+            </aside>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
   <footer class="site-footer"><span>CHESS LAB</span><span>Um espaço para jogar e aprender juntos.</span><span>FEITO PARA DOIS</span></footer>

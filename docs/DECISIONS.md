@@ -196,3 +196,20 @@ Descrição.
 Motivo:
 - ...
 ```
+
+## D-025 — Aprender com o Pogona como módulo independente
+**Status:** aceita
+
+Extensão de escopo solicitada: seis capítulos individuais e interativos,
+separados das salas Normal/Assistida. Catálogo e validação ficam no servidor;
+o cliente envia intenções, nunca posições. Histórico limitado é reproduzido
+contra exercícios imutáveis, evitando criar outro gerenciador de sessões.
+Progresso pessoal fica no localStorage, sem login nem banco.
+
+`hints.build_plan` reaproveita evidências pedagógicas com o lance do exercício;
+conceitos específicos complementam quatro pistas e revelação confirmada.
+Partida guiada usa respostas roteirizadas, sem IA adversária. Personagem ocupa
+uma área permanente fora do conteúdo rolável e do tabuleiro. Não há mudanças
+no protocolo multiplayer nem na análise opcional dos modos existentes.
+
+Detalhes, limites e expansão em `pogona/IMPLEMENTACAO.md`.

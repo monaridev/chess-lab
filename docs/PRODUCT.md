@@ -87,3 +87,11 @@ Refinamento visual e pedagógico, sem expansão do produto: Elmore School,
 Watterson Cozy, Cartoon 2.0 e dicas com evidências mais específicas.
 A referência visual atual é `references/ref-gumball.png`; detalhes em
 `V1_2_SCOPE.md`. A estrutura e os fluxos da V1.1 permanecem.
+
+## Aprender com o Pogona
+
+Modo individual complementar ao multiplayer, com seis capítulos e 19
+exercícios. Professor sempre presente, tabuleiro interativo, cinco perguntas
+de raciocínio, pistas progressivas e progresso no navegador. Inclui partida
+curta guiada com respostas predefinidas. Escopo e limites documentados em
+`pogona/IMPLEMENTACAO.md`; Normal e Assistido preservados.

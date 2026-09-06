@@ -244,3 +244,13 @@ números, legenda e rótulos acessíveis, sem mudar o payload do servidor.
 `hints.py` acrescenta evidências de posição aos textos. Multiplayer, regras,
 Stockfish/fallback e limites permanecem. Direção atual: `V1_2_SCOPE.md` e
 `references/ref-gumball.png` (prioridade visual sobre screenshots anteriores).
+
+## Aprender com o Pogona
+
+`learning.py` registra `/api/learn` no FastAPI. Exercícios e objetivos são
+servidos por HTTP e validados com as mesmas regras de `game.py`. O histórico
+limitado é reproduzido a partir do catálogo do servidor; não cria salas.
+`learning.js` controla sua própria tela, seleção e requisições, usando apenas
+os helpers de FEN e preferências visuais existentes. `learning.css` isola o
+layout do personagem e lições. Progresso em `chesslab.learning.v1` não altera
+as chaves de sessão e aparência. Ver `pogona/IMPLEMENTACAO.md`.

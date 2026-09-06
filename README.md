@@ -166,3 +166,14 @@ Melhorar a qualidade pedagógica das heurísticas e ampliar os testes para naveg
 ## Créditos
 
 Regras e renderização SVG das peças: `python-chess` (GPL-3.0-or-later). Os desenhos das peças incluídos pela biblioteca são de Colin M. L. Burnett (licenciamento triplo GFDL/BSD/GPL, distribuídos aqui sob GPL). Consulte `frontend/pieces/ATTRIBUTION.md`.
+
+## Aprender com o Pogona
+
+Na tela inicial, clique em **Aprender com o Pogona**. São seis capítulos e
+19 exercícios interativos, com professor sempre visível, pistas progressivas,
+revelação opcional confirmada e progresso salvo neste navegador. A partida
+guiada é um roteiro curto até o mate, sem IA adversária. Normal e Assistido
+continuam disponíveis para duas pessoas.
+
+Documentação do currículo, assets e expansão: [docs/pogona/IMPLEMENTACAO.md](docs/pogona/IMPLEMENTACAO.md).
+Testes específicos: `.venv/bin/pytest -q tests/test_learning.py tests/test_browser_learning.py`.

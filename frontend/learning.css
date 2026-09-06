@@ -1,0 +1,58 @@
+.learn-entry { padding:20px; margin:24px 0; max-width:440px; }
+.learn-entry p { margin:8px 0 14px; }
+.learn-entry small { display:block; margin-top:10px; color:var(--muted); }
+body.learning-active { overflow:hidden; }
+.learning-active .site-header { height:64px; }
+.learning-active .site-footer { display:none; }
+.learning { height:calc(100dvh - 64px); display:grid; grid-template-columns:220px minmax(0,1fr); gap:24px; padding:20px 0; }
+.pogona-panel { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px; min-height:0; }
+#pogona-pose { width:100%; height:auto; max-height:52dvh; object-fit:contain; flex-shrink:1; min-height:60px; }
+.pogona-voice { width:100%; overflow:auto; }
+.pogona-voice strong { display:block; font-size:18px; }
+#pogona-state { display:block; margin:8px 0; }
+#pogona-speech { font-size:13px; margin:0; }
+.learn-content { min-width:0; overflow:auto; padding:4px 8px 24px 4px; scrollbar-gutter:stable; }
+.learning h1 { font-size:clamp(30px,3.5vw,48px); margin:20px 0; }
+.learn-catalog { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+.learn-card { text-align:left; padding:22px; color:var(--text); font:inherit; }
+.learn-card strong { display:block; font-size:19px; margin:8px 0; }
+.learn-card small { color:var(--muted); }
+.learn-card:hover { border-color:var(--accent); }
+.learn-work { display:grid; grid-template-columns:minmax(0,1fr) 250px; gap:20px; align-items:start; }
+#learn-title { font-size:26px; margin-bottom:12px; }
+#learn-objective { margin:14px 0 20px; }
+#learn-board { max-width:600px; }
+#learn-board + p { margin-top:14px; }
+.learn-tools { padding:18px; }
+.learn-tools h3 { margin:0; font-size:16px; }
+.learn-checklist { padding-left:20px; font-size:12px; color:var(--muted); }
+.learn-checklist li { padding-bottom:8px; }
+#learn-hints { padding-left:20px; font-size:13px; }
+#learn-hints li { padding-bottom:12px; }
+#learn-revealed { font-size:13px; margin-top:12px; }
+#learn-restart { display:block; margin:16px 0; }
+#learn-feedback { color:var(--accent); }
+#learn-storage:empty, #learn-error:empty { display:none; }
+@media(max-width:1100px) {
+  .learning { grid-template-columns:180px minmax(0,1fr); gap:16px; }
+  .learn-work { grid-template-columns:1fr; }
+  #learn-board { max-width:540px; }
+}
+@media(max-width:720px) {
+  .learning-active .site-header { height:52px; }
+  .learning { height:calc(100dvh - 52px); grid-template-columns:minmax(0,1fr); grid-template-rows:112px minmax(0,1fr); gap:12px; padding:10px 0 0; }
+  .pogona-panel { flex-direction:row; padding:8px 12px; gap:12px; justify-content:flex-start; }
+  #pogona-pose { height:96px; width:76px; flex-shrink:0; }
+  .pogona-voice { max-height:96px; }
+  .pogona-voice strong { font-size:14px; }
+  #pogona-state { margin:2px 0; font-size:8px; }
+  #pogona-speech { font-size:11px; }
+  .learn-catalog { grid-template-columns:1fr; }
+  .learn-content { padding-right:4px; }
+  .learn-content .game-topline { flex-wrap:wrap; }
+  .learning h1 { font-size:30px; }
+}
+@media(max-height:450px) and (min-width:721px) {
+  #pogona-pose { max-height:30dvh; }
+  .pogona-voice strong { font-size:14px; }
+}

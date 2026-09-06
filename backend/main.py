@@ -10,6 +10,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
+from .learning import router as learning_router
 from .game import GameError, outcome, play
 from .analysis import AnalysisService
 from .rooms import RoomManager
@@ -46,6 +47,7 @@ def create_app(manager: RoomManager | None = None, analysis: AnalysisService | N
         await analyser.close()
 
     app = FastAPI(title="Chess Lab", lifespan=lifespan)
+    app.include_router(learning_router)
     app.state.rooms = rooms
     app.state.analysis = analyser
 
