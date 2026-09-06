@@ -1,136 +1,155 @@
-# ChessLab — Modo Solo Offline — Arquitetura Técnica
+# ChessLab Solo — Arquitetura técnica
 
-## Objetivo técnico
-Adicionar um modo de partida individual usando Stockfish como adversário, reaproveitando ao máximo a arquitetura atual do ChessLab e mantendo os modos Normal, Assistido e Aprender intactos.
+## Princípios
+- offline sempre que o cliente/servidor local possuir Stockfish;
+- sem LLM;
+- sem API externa;
+- sem banco de dados;
+- sem Elo público;
+- compatível com a arquitetura atual;
+- sem regressão nos modos existentes.
 
-## Decisão principal
-Não usar IA generativa para a lógica do adversário.
+## Componentes
 
-O Stockfish é suficiente para:
-- analisar posições;
-- escolher lances;
-- ajustar força;
-- funcionar localmente;
-- produzir comportamento previsível e testável.
-
-## Componentes esperados
-### Backend
+### Stockfish
 Responsável por:
-- validar posição e lances com `python-chess`;
-- coordenar a partida Solo;
-- solicitar um lance ao Stockfish;
-- aplicar limites de força;
-- expor endpoints ou eventos necessários ao frontend;
-- reaproveitar `backend/analysis.py` e `backend/hints.py` sempre que fizer sentido.
+- escolher lances do adversário;
+- analisar o melhor lance da posição;
+- avaliar a jogada do usuário;
+- fornecer candidatos para comparação.
 
-### Frontend
+### python-chess
 Responsável por:
-- iniciar partida Solo;
-- selecionar nível;
-- selecionar modo de ajuda;
-- renderizar o tabuleiro;
-- bloquear interação durante a jogada do adversário;
-- mostrar estado do Pogona;
-- mostrar balões de fala e dicas;
-- exibir resumo pós-partida.
+- regras;
+- estado do tabuleiro;
+- FEN/SAN/UCI;
+- legalidade;
+- detecção de cheque/mate;
+- suporte à engine UCI.
 
-## Integração com Stockfish
-O projeto já possui integração opcional com Stockfish para análise. O modo Solo deve reaproveitar essa base em vez de criar uma segunda integração independente.
+### Camada pedagógica ChessLab
+Responsável por:
+- interpretar o que a jogada fez;
+- detectar conceitos;
+- classificar o lance;
+- gerar comentário textual curto;
+- selecionar estado/pose do Pogona.
 
-A engine deve receber a posição atual e devolver um lance legal.
+## Reuso da base atual
+Priorizar reuso de:
+- `backend/analysis.py`;
+- `backend/hints.py`;
+- estruturas de `python-chess` já existentes;
+- assets do Pogona;
+- componentes visuais do modo Aprender.
 
-## Controle de força
-O objetivo não é usar sempre o melhor lance possível.
-
-Possíveis controles, conforme suporte da integração escolhida:
-- `Skill Level`;
-- tempo máximo por lance;
-- profundidade limitada;
-- nós limitados;
-- escolha probabilística entre alguns lances candidatos.
-
-## Estratégia recomendada por nível
-### Nível 1
-- força muito baixa;
-- tempo de cálculo curto;
-- aceitar escolhas entre vários lances razoáveis;
-- evitar comportamento perfeito.
-
-### Nível 2
-- força baixa;
-- ainda permitir imprecisões.
-
-### Nível 3
-- força moderada;
-- menos aleatoriedade.
-
-### Nível 4
-- força maior, mas ainda limitada.
-
-## Requisito importante
-Não implementar dificuldade apenas como "Stockfish forte + atraso artificial".
-
-A diferença precisa estar na qualidade dos lances, não somente no tempo de resposta.
-
-## Fluxo de jogada
-1. Usuário realiza uma jogada.
-2. Backend valida a jogada.
-3. Estado da partida é atualizado.
-4. Sistema verifica fim da partida.
-5. Se continuar, o Stockfish recebe a posição.
-6. Stockfish escolhe uma jogada conforme o nível.
-7. Backend valida/aplica o lance da engine.
-8. Novo estado é enviado ao frontend.
-9. Pogona pode gerar feedback pedagógico.
-
-## Estado da partida
-O modo Solo não precisa inicialmente de persistência no servidor.
-
-Pode usar:
-- estado em memória durante a sessão;
-- `localStorage` para preferências e progresso leve no cliente.
-
-## Offline
-O modo Solo deve funcionar sem chamadas para APIs externas.
-
-Observação: se o ChessLab continuar hospedado como site web, "offline" significa que a lógica de adversário não depende de uma API externa. Para funcionamento totalmente sem rede após carregar a aplicação, seria necessário um passo adicional como PWA/cache ou empacotamento local. Isso pode ficar fora da primeira implementação.
-
-## Stockfish indisponível
-O comportamento deve ser explícito.
-
-Opções aceitáveis:
-1. impedir início da partida Solo e mostrar mensagem clara;
-2. usar fallback simples apenas se já houver uma solução segura e testada no projeto.
-
-Não fingir que a engine está disponível.
-
-## Pogona e pedagogia
-A engine não deve gerar textos para o usuário.
-
-O feedback deve vir da camada pedagógica existente, preferencialmente reaproveitando `hints.py` e análise de posição.
+Evitar duplicar detectores de conceito quando a lógica já existir.
 
 ## Estrutura sugerida
-Exemplo, não obrigatório:
+A implementação pode adaptar os nomes à arquitetura atual, mas uma separação possível é:
 
 ```text
 backend/
   solo.py
+  move_review.py
   analysis.py
   hints.py
-  game.py
 
 frontend/
   solo.js
   solo.css
-  assets/pogona/
 ```
 
-A implementação final deve respeitar a arquitetura já existente e evitar duplicação de lógica.
+## Estado de uma partida Solo
+Deve incluir pelo menos:
+- board/FEN;
+- lado do jogador;
+- dificuldade;
+- histórico de lances;
+- avaliações por lance;
+- classificações por lance;
+- precisão parcial;
+- resultado final.
 
-## Segurança contra regressões
-- Normal continua funcionando;
-- Assistido continua funcionando;
-- Aprender continua funcionando;
-- multiplayer continua funcionando;
-- salas não devem depender do modo Solo;
-- lógica Solo deve ficar isolada sempre que possível.
+## Dificuldade do Stockfish
+Sem mostrar Elo ao usuário.
+
+O frontend apresenta apenas:
+- Iniciante
+- Fácil
+- Médio
+- Difícil
+
+Internamente, usar parâmetros como:
+- `Skill Level`;
+- tempo máximo por jogada;
+- profundidade;
+- escolha entre MultiPV candidatos;
+- aleatoriedade controlada entre lances aceitáveis.
+
+### Regra importante
+Nos níveis baixos, não basta reduzir profundidade se isso ainda produzir comportamento muito forte. Preferir seleção entre vários lances razoáveis para criar um adversário mais humano e menos punitivo.
+
+## Fluxo de uma jogada
+1. usuário faz um lance legal;
+2. backend registra posição anterior;
+3. engine avalia posição/lance;
+4. sistema detecta evidências;
+5. gera `MoveReview`;
+6. frontend exibe classificação + fala do Pogona;
+7. Stockfish escolhe resposta;
+8. resposta é aplicada;
+9. turno volta ao usuário.
+
+## Estrutura de resposta sugerida
+
+```json
+{
+  "move": "Nf3",
+  "classification": "excellent",
+  "accuracy_delta": 0.04,
+  "comment": "Você desenvolveu o cavalo e ganhou mais controle do centro.",
+  "pogona_state": "praise",
+  "concepts": ["development", "center"],
+  "best_move": "Nf3",
+  "is_forced": false
+}
+```
+
+`best_move` pode existir internamente e não precisa ser mostrado automaticamente.
+
+## Offline
+A execução deve funcionar sem internet quando o ambiente local possuir:
+- aplicação;
+- python-chess;
+- binário Stockfish.
+
+Não fazer chamadas remotas para análise ou texto.
+
+## Fallback
+Se Stockfish não estiver disponível:
+- não fingir que existe análise de engine;
+- exibir mensagem clara;
+- preservar outros modos;
+- opcionalmente permitir apenas uma análise heurística limitada, marcada explicitamente como tal.
+
+## Persistência local
+Se houver estatísticas, usar `localStorage`.
+
+Exemplo:
+
+```json
+{
+  "gamesPlayed": 12,
+  "bestAccuracy": 91,
+  "recentAccuracy": [77, 81, 84, 88, 85],
+  "lastDifficulty": "medium",
+  "conceptStats": {
+    "development": 0.82,
+    "kingSafety": 0.66,
+    "hangingPieces": 0.58
+  }
+}
+```
+
+Nada disso exige servidor ou banco.
