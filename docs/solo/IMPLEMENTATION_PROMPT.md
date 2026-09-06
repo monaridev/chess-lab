@@ -1,29 +1,39 @@
-# Prompt sugerido para o Codex
+# Prompt sugerido para o Codex / Work
 
-Leia toda a documentação em `docs/solo/` antes de alterar código.
+Leia integralmente a documentação em `docs/solo/` antes de alterar código.
 
-Implemente o Modo Solo Offline descrito nesses documentos, usando Stockfish como adversário e mantendo o Professor Pogona como camada pedagógica.
+Implemente o modo **Solo Offline** do ChessLab conforme os documentos de produto, arquitetura, decisões, análise de jogadas e testes.
 
-Antes de implementar, analise a arquitetura atual e localize a integração Stockfish já existente. Reaproveite `python-chess`, `backend/analysis.py`, `backend/hints.py` e os componentes atuais sempre que fizer sentido.
+Pontos obrigatórios:
+- usar Stockfish local como adversário;
+- não usar LLM;
+- não usar API externa paga;
+- não adicionar banco de dados;
+- não implementar Elo/rating;
+- oferecer dificuldades Iniciante, Fácil, Médio e Difícil;
+- analisar cada jogada do usuário após ela acontecer;
+- classificar cada jogada com o sistema próprio do ChessLab;
+- gerar comentário curto e específico do Professor Pogona a partir das evidências reais da posição;
+- reaproveitar `backend/hints.py`, `backend/analysis.py` e demais estruturas existentes sempre que fizer sentido;
+- manter o Pogona visível durante toda a partida;
+- usar poses coerentes com a classificação/contexto;
+- calcular uma métrica de precisão da partida;
+- criar resumo pós-partida;
+- usar `localStorage` apenas para estatísticas locais opcionais;
+- manter Normal, Assistido, Aprender e multiplayer sem regressões.
 
-Requisitos principais:
-- não usar IA generativa para escolher lances;
-- permitir partida individual contra Stockfish;
-- oferecer níveis de força adequados a iniciantes;
-- adicionar modos de ajuda Guiado, Assistido e Livre;
-- manter o Pogona visível e usar os estados visuais existentes;
-- manter falas em balões próximos ao personagem;
-- criar resumo pedagógico pós-partida;
-- não adicionar login ou banco;
-- manter Normal, Assistido, Aprender e multiplayer intactos;
-- criar testes de backend, integração e frontend para o novo fluxo;
-- executar toda a suíte ao final e corrigir regressões.
+Antes de implementar, analise a arquitetura atual e escolha a menor mudança estrutural que mantenha o código organizado e expansível.
 
-Tome decisões técnicas por conta própria quando necessário, mas preserve simplicidade e a arquitetura existente.
+Não copie fórmulas, thresholds, nomenclatura visual ou comportamento proprietário de plataformas externas. O sistema de classificação e precisão deve ser próprio do ChessLab.
 
-Ao final, entregue:
-1. resumo do que foi implementado;
-2. arquivos criados/alterados;
-3. testes executados e resultados;
-4. limitações conhecidas;
-5. próximos passos recomendados.
+A análise pós-lance deve distinguir avaliação de engine de explicação pedagógica. Stockfish mede; o ChessLab interpreta.
+
+Ao final:
+1. rode toda a suíte existente;
+2. adicione testes específicos do Solo;
+3. corrija regressões;
+4. faça teste manual local quando possível;
+5. entregue resumo do que foi implementado;
+6. liste arquivos alterados;
+7. informe limitações e pendências;
+8. não faça `git push` sem autorização explícita.
