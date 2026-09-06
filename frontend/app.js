@@ -350,7 +350,7 @@ $("reveal-dialog").addEventListener("close", () => {
     if (send({type: "reveal", confirmed: true, ply: position.ply})) { pendingHint = true; updateControls(); }
   }
 });
-document.querySelectorAll("dialog").forEach((dialog) => {
+document.querySelectorAll("dialog:has(form)").forEach((dialog) => {
   let closeTimer;
   function close(value) {
     if (reducedMotion.matches) { dialog.close(value); return; }

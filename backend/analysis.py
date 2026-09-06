@@ -32,10 +32,13 @@ class AnalysisService:
         self.engine = None
         self.failed = False
 
-    async def _analyse(self, board: chess.Board) -> chess.Move | None:
+    async def start(self):
         if not self.engine:
             self.transport, self.engine = await chess.engine.popen_uci(self.path)
             await self.engine.configure({"Threads": 1, "Hash": 32})
+
+    async def _analyse(self, board: chess.Board) -> chess.Move | None:
+        await self.start()
         candidates = await self.engine.analyse(
             board, chess.engine.Limit(time=self.time_limit, depth=self.depth),
             multipv=3, info=chess.engine.INFO_SCORE | chess.engine.INFO_PV,

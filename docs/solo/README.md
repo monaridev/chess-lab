@@ -10,4 +10,6 @@ Arquivos:
 - `TESTING.md` — critérios de teste e regressão;
 - `IMPLEMENTATION_PROMPT.md` — prompt curto para iniciar a implementação.
 
-Estado: **enviado ao GitHub**.
+Estado: **implementado localmente, aguardando revisão**.
+
+Consulte `IMPLEMENTATION.md` para execução, arquitetura, testes e limitações.

@@ -254,3 +254,12 @@ limitado é reproduzido a partir do catálogo do servidor; não cria salas.
 os helpers de FEN e preferências visuais existentes. `learning.css` isola o
 layout do personagem e lições. Progresso em `chesslab.learning.v1` não altera
 as chaves de sessão e aparência. Ver `pogona/IMPLEMENTACAO.md`.
+
+## Solo Offline
+
+`solo.py` adiciona sessões HTTP isoladas em memória. `solo_engine.py` estende
+a infraestrutura UCI de `analysis.py`, com engine separada das dicas multiplayer.
+`move_review.py` combina avaliações e evidências semânticas do lance real.
+O cliente recebe revisão antes de solicitar a resposta do adversário.
+`board_view.js` compartilha apenas a apresentação com Aprender.
+Contratos, limites e retomada em `solo/IMPLEMENTATION.md`.

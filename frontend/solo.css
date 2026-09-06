@@ -1,0 +1,231 @@
+/* Solo composes the existing theme tokens, buttons, board and Pogona assets. */
+body.solo-active { overflow:hidden; }
+.solo-active .site-header { height:64px; }
+.solo-active .site-footer { display:none; }
+.solo-active main { max-width:1600px; width:calc(100% - 48px); padding:0; }
+.solo { --solo-soft:color-mix(in srgb,var(--accent) 6%,var(--panel)); height:calc(100dvh - 64px); min-height:0; display:grid; grid-template-columns:minmax(0,1fr) 290px; grid-template-rows:52px minmax(0,1fr); gap:0 24px; padding-bottom:20px; }
+.solo-topbar { grid-column:1/-1; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.solo-topbar .eyebrow { font-size:10px; }
+.solo-topbar .eyebrow span { opacity:.4; padding:0 12px; }
+.solo-content { min-width:0; min-height:0; overflow:auto; scrollbar-width:thin; position:relative; }
+.solo-professor { grid-column:2; grid-row:2; display:flex; align-items:center; flex-direction:column; gap:20px; padding:26px 22px 20px; min-height:0; overflow:hidden; background:linear-gradient(145deg,var(--solo-soft),var(--panel)); }
+.solo-professor-title { display:flex; align-items:center; gap:12px; width:100%; margin-bottom:auto; }
+.solo-professor-title strong { display:block; font-size:16px; }
+.solo-professor-title small { display:block; font-size:11px; color:var(--muted); margin-top:3px; }
+.solo-avatar { color:var(--accent); font-size:28px; }
+.solo .pogona-bubble { padding:18px; background:var(--text); flex:0 0 auto; border-radius:18px; }
+#solo-speech { font-size:14px; line-height:1.6; margin:0; max-height:150px; overflow:auto; scrollbar-width:thin; }
+.solo-portrait { display:flex; flex:0 1 350px; flex-direction:column; align-items:center; min-height:0; width:100%; }
+#solo-pose { width:100%; height:calc(100% - 24px); min-height:0; object-fit:contain; }
+#solo-pose-label { font-size:10px; letter-spacing:1.4px; color:var(--accent); text-transform:uppercase; margin-top:8px; }
+.solo-professor-note { font:italic 17px/1.55 Georgia,serif; color:var(--muted); text-align:center; margin:0; }
+.solo-professor-note::after { content:""; display:block; width:44px; height:2px; background:var(--accent); margin:12px auto 0; transform:rotate(-5deg); }
+.solo-setup { padding:28px 32px; background:linear-gradient(140deg,var(--solo-soft),var(--panel) 70%); }
+.solo-hero { position:relative; overflow:hidden; padding:0 0 20px; }
+.solo-hero h1 { position:relative; z-index:1; font-size:clamp(30px,3.1vw,48px); line-height:1.15; letter-spacing:-1.6px; margin:12px 0 16px; }
+.solo-hero h1 span { color:var(--accent); }
+.solo-hero p:not(.eyebrow) { font-size:14px; color:var(--muted); margin:0; max-width:80%; }
+.solo-hero-piece { position:absolute; font:170px/1 Georgia,serif; color:var(--accent); opacity:.075; right:12px; top:5px; transform:rotate(-15deg); pointer-events:none; }
+#solo-form { display:grid; gap:12px; }
+.solo-option-row { border:1px solid var(--line); border-radius:12px; margin:0; padding:12px 16px; display:grid; grid-template-columns:minmax(150px,1fr) minmax(0,1.45fr); column-gap:16px; align-items:center; }
+.solo-option-row legend { float:left; width:100%; padding:0; font-size:14px; font-weight:bold; grid-column:1; }
+.solo-option-row > p { grid-column:1; font-size:11px; color:var(--muted); margin:4px 0 0; }
+.solo-segments { grid-column:2; grid-row:1/3; display:flex; gap:6px; min-width:0; }
+.solo-segments label { flex:1; position:relative; min-width:0; cursor:pointer; }
+.solo-segments input { position:absolute; opacity:0; width:1px; height:1px; }
+.solo-segments span { display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 7px; min-height:44px; border:1px solid var(--line); border-radius:8px; background:var(--bg); color:var(--muted); font-size:12px; }
+.solo-segments input:checked + span { background:var(--accent); color:var(--bg); border-color:var(--accent); box-shadow:0 2px 12px #0002; }
+.solo-segments input:focus-visible + span { outline:3px solid var(--accent); outline-offset:3px; }
+.solo-segments small { font-size:10px; margin-top:2px; opacity:.85; }
+.solo-appearance { display:grid; gap:12px; }
+.solo-visual-options { margin:0; padding:12px 16px; border:1px solid var(--line); border-radius:12px; min-width:0; }
+.solo-visual-options legend { padding:0 6px; font-size:12px; color:var(--muted); }
+.solo-swatches { display:flex; flex-wrap:wrap; gap:8px; }
+.solo-swatch { border:1px solid transparent; padding:5px; border-radius:8px; color:var(--muted); background:transparent; min-width:56px; display:flex; flex-direction:column; align-items:center; gap:5px; font-size:9px; }
+.solo-swatch[aria-pressed="true"] { border-color:var(--accent); background:var(--solo-soft); color:var(--text); }
+.solo-swatch-preview { width:40px; height:32px; display:grid; grid-template-columns:repeat(3,1fr); border-radius:4px; overflow:hidden; border:1px solid var(--line); }
+.solo-swatch-preview i { background:var(--board-light); }
+.solo-swatch-preview i:nth-child(even) { background:var(--board-dark); }
+.solo-swatch-preview:has(img) { display:block; background:var(--board-dark); }
+.solo-swatch-preview img { display:block; height:100%; width:100%; object-fit:contain; }
+.solo-start-row { display:grid; gap:8px; margin-top:8px; }
+.solo-start-row .button { width:100%; min-height:54px; font-size:16px; }
+.solo-start-row .button span { margin-right:10px; }
+.solo-start-row small { text-align:center; color:var(--muted); font-size:10px; }
+#solo-resume { display:block; margin:8px auto 0; }
+.solo-storage { font-size:10px; color:var(--muted); margin:8px 0; }
+#solo-notice:has(#solo-error:empty):has(#solo-retry[hidden]), #solo-error:empty, #solo-storage:empty { display:none; }
+/* The game occupies a fixed viewport. Content growth belongs to contained panels. */
+.solo[data-screen="game"] { grid-template-columns:240px minmax(0,1fr) 248px; gap:0 20px; }
+.solo[data-screen="game"] .solo-professor { grid-column:1; padding:22px 18px; gap:18px; }
+.solo[data-screen="game"] .solo-content { grid-column:2; overflow:hidden; display:flex; flex-direction:column; }
+.solo[data-screen="game"] .solo-professor-title { margin-bottom:0; }
+.solo[data-screen="game"] .solo-professor-title small { font-size:10px; }
+.solo[data-screen="game"] .solo-professor-title strong { font-size:14px; }
+.solo[data-screen="game"] .solo-portrait { flex:0 1 360px; max-height:44dvh; }
+.solo[data-screen="game"] .solo-professor-note { margin-top:auto; }
+.solo-grade-card { width:100%; padding:12px; border:1px solid var(--accent); border-radius:10px; display:flex; gap:10px; align-items:center; color:var(--accent); background:var(--solo-soft); box-shadow:inset 0 -3px 0 color-mix(in srgb,var(--accent) 16%,transparent); }
+#solo-grade { margin:0; font-size:16px; font-weight:700; line-height:1.4; }
+#solo-grade-icon { font-size:25px; }
+[data-grade="mistake"], [data-grade="blunder"] { --grade-color:#f0a293; }
+[data-grade="inaccuracy"], [data-grade="interesting"] { --grade-color:#e9cf8f; }
+[data-grade="brilliant"], [data-grade="excellent"], [data-grade="very_good"], [data-grade="good"] { --grade-color:var(--accent); }
+.solo-grade-card[data-grade] { color:var(--grade-color,var(--accent)); border-color:var(--grade-color,var(--accent)); }
+.solo-game { display:flex; flex-direction:column; align-items:center; min-height:0; flex:1; }
+.solo-board-status { display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-height:66px; }
+.solo-board-status h2 { font-size:20px; line-height:1.25; margin:2px 0 12px; }
+.solo-board-status .eyebrow { font-size:9px; }
+#solo-info { font-size:11px; color:var(--muted); max-width:150px; text-align:right; }
+.solo-board-wrap { width:100%; min-height:0; flex:1; display:flex; align-items:center; justify-content:center; }
+#solo-board { width:min(100%,calc(100dvh - 240px)); max-height:100%; aspect-ratio:1; box-shadow:0 12px 35px #0003; flex-shrink:0; }
+.solo-board-bottom { width:100%; display:flex; justify-content:space-between; align-items:center; gap:8px; min-height:52px; }
+.solo-board-bottom .quiet { font-size:10px; }
+#solo-history-open { font-size:12px; white-space:nowrap; }
+.solo[data-screen="game"] .solo-storage { min-height:15px; margin:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+#solo-notice { max-height:100px; overflow:auto; flex-shrink:0; font-size:12px; }
+.solo-tools { min-height:0; overflow:auto; padding:24px 20px; display:flex; flex-direction:column; scrollbar-width:thin; }
+.solo-checklist > .eyebrow { font-size:9px; }
+.solo-checklist h3 { font-size:17px; margin:6px 0 20px; }
+.solo-checklist ol { list-style:none; padding:0; counter-reset:think; font-size:13px; }
+.solo-checklist li { display:flex; align-items:center; gap:10px; margin-bottom:18px; counter-increment:think; }
+.solo-checklist li::before { content:counter(think); border:1px solid var(--line); background:var(--solo-soft); width:28px; height:28px; border-radius:50%; text-align:center; line-height:28px; flex-shrink:0; font-weight:bold; color:var(--accent); }
+.solo-tools-actions { display:flex; gap:8px; }
+.solo-tools-actions .button { flex:1; min-width:0; }
+#solo-more { display:none; }
+.solo-tools-detail { border-top:1px solid var(--line); margin-top:22px; font-size:12px; }
+#solo-hints { padding-left:18px; }
+#solo-hints:empty { display:none; }
+#solo-hints li { margin-bottom:12px; }
+.solo-confirm { border:1px solid var(--line); border-radius:8px; padding:10px; margin:10px 0; }
+.solo-confirm .button { font-size:12px; width:100%; }
+#solo-revealed { font-size:12px; overflow-wrap:anywhere; }
+.solo-tools-note { margin:auto 0 0; padding-top:24px; text-align:center; font:italic 15px/1.6 Georgia,serif; color:var(--muted); }
+/* Native dialogs supply focus trapping, Escape and focus restoration. */
+.solo-dialog { width:min(510px,calc(100vw - 40px)); max-width:none; border:1px solid var(--line); background:var(--panel); color:var(--text); box-shadow:0 24px 80px #0008; padding:26px; max-height:calc(100dvh - 160px); scrollbar-width:thin; }
+.solo-dialog::backdrop { background:#050b102b; }
+.solo-dialog-close { position:absolute; right:10px; top:8px; font-size:24px; border:0; background:transparent; color:var(--muted); }
+.solo-dialog h2 { font-size:27px; margin:4px 30px 8px 0; line-height:1.2; }
+.solo-dialog > .eyebrow { margin:0 0 6px; font-size:9px; }
+#solo-result { font-size:13px; color:var(--muted); margin:4px 0 16px; }
+.solo-accuracy-card { display:grid; grid-template-columns:1fr auto; align-items:center; padding:14px 16px; background:var(--solo-soft); border:1px solid var(--line); border-radius:12px; }
+.solo-accuracy-card > span { font-size:13px; }
+#solo-accuracy { font-size:32px; color:var(--accent); }
+.solo-accuracy-card small { font-size:10px; color:var(--muted); grid-column:1/-1; }
+#solo-counts { display:grid; grid-template-columns:1fr 1fr; gap:6px 10px; padding:0; margin:16px 0; list-style:none; }
+#solo-counts li { display:flex; align-items:center; gap:8px; padding:6px 9px; background:var(--bg); border:1px solid var(--line); border-radius:20px; font-size:12px; }
+#solo-counts strong { margin-left:auto; }
+.solo-count-icon { color:var(--grade-color,var(--accent)); font-weight:bold; width:18px; text-align:center; }
+.solo-takeaways { border-top:1px solid var(--line); padding-top:12px; display:grid; gap:12px; }
+.solo-takeaways h3 { font-size:13px; color:var(--accent); margin:0; }
+.solo-takeaways div:last-child h3 { color:#e9b29f; }
+.solo-takeaways p { color:var(--muted); font-size:12px; margin:3px 0; }
+.solo-dialog-actions { display:grid; gap:8px; margin-top:18px; }
+.solo-dialog-actions .button { min-height:44px; }
+#solo-history { list-style:none; margin:16px 0 0; padding:0; }
+#solo-history li { padding:14px 0; border-top:1px solid var(--line); font-size:13px; }
+#solo-history strong { color:var(--grade-color,var(--text)); }
+#solo-history p { color:var(--muted); margin:5px 0 0; }
+@media(min-width:721px) and (max-height:800px) {
+  .solo-setup { padding:20px 24px; }
+  .solo-hero { padding-bottom:14px; }
+  .solo-hero h1 { font-size:32px; margin:8px 0; }
+  .solo-hero p:not(.eyebrow) { font-size:12px; }
+  #solo-form { gap:8px; }
+  .solo-option-row { padding:8px 12px; }
+  .solo-visual-options { padding:6px 12px; }
+  .solo-professor { gap:14px; }
+  .solo-professor-note { display:none; }
+}
+@media(min-width:721px) and (max-width:1150px) {
+  .solo[data-screen="game"] { grid-template-columns:185px minmax(0,1fr) 190px; gap:0 12px; }
+  .solo-tools { padding:16px 12px; }
+  .solo[data-screen="game"] .solo-professor { padding:16px 12px; }
+  .solo-professor-title small, .solo-avatar { display:none; }
+  .solo-option-row { display:block; }
+  .solo-option-row legend { float:none; width:auto; }
+  .solo-option-row > p { display:none; }
+  .solo-segments { margin-top:4px; }
+}
+@media(max-width:720px) {
+  .solo-active .site-header { height:52px; }
+  .solo-active main { width:calc(100% - 24px); }
+  .solo { height:calc(100dvh - 52px); grid-template-columns:minmax(0,1fr); grid-template-rows:40px 124px minmax(0,1fr); gap:8px 0; padding-bottom:8px; }
+  .solo-topbar .eyebrow { font-size:8px; }
+  .solo-topbar .eyebrow span { padding:0 4px; }
+  .solo-topbar .text-button { font-size:11px; min-height:36px; }
+  .solo .solo-professor, .solo[data-screen="game"] .solo-professor { grid-row:2; grid-column:1; padding:10px; display:grid; grid-template-columns:76px minmax(0,1fr); grid-template-rows:auto minmax(0,1fr); gap:5px 12px; overflow:hidden; }
+  .solo-professor-title, .solo-professor-note { display:none; }
+  .solo-portrait { grid-column:1; grid-row:1/3; height:102px; }
+  #solo-pose { height:86px; width:76px; }
+  #solo-pose-label { font-size:8px; letter-spacing:.5px; margin-top:2px; }
+  .solo .pogona-bubble { grid-column:2; grid-row:2; padding:8px 10px; border-radius:12px; min-height:0; align-self:start; }
+  .solo .pogona-bubble::after { top:20px; left:0; width:10px; height:10px; border-right:0; border-left:1px solid var(--accent); transform:translateX(-6px) rotate(45deg); }
+  #solo-speech { font-size:11px; line-height:1.45; max-height:62px; }
+  .solo[data-screen="setup"] .pogona-bubble { grid-row:1/3; align-self:center; }
+  .solo-grade-card { grid-column:2; grid-row:1; padding:0; border:0; background:none; box-shadow:none; gap:6px; }
+  #solo-grade { font-size:12px; }
+  #solo-grade-icon { font-size:14px; }
+  .solo-content { grid-column:1; grid-row:3; }
+  .solo-setup { padding:18px 14px; }
+  .solo-hero h1 { font-size:29px; letter-spacing:-1px; }
+  .solo-hero .eyebrow { font-size:8px; }
+  .solo-hero p:not(.eyebrow) { font-size:12px; max-width:100%; }
+  .solo-hero-piece { display:none; }
+  .solo-option-row { display:block; padding:10px; }
+  .solo-option-row legend { float:none; width:auto; padding:0 4px; }
+  .solo-option-row > p { display:none; }
+  .solo-segments { margin-top:3px; }
+  .solo-segments span { font-size:11px; padding:8px 4px; }
+  .solo-segments small { font-size:9px; }
+  .solo-visual-options { padding:8px; }
+  .solo-swatches { gap:4px; }
+  .solo-swatch { min-width:54px; font-size:8px; padding:4px; }
+  .solo[data-screen="game"] { grid-template-columns:minmax(0,1fr); grid-template-rows:40px 124px minmax(0,1fr) 52px; gap:6px 0; }
+  .solo[data-screen="game"] .solo-content { grid-row:3; grid-column:1; }
+  .solo-board-status { min-height:44px; }
+  .solo-board-status .eyebrow { display:none; }
+  .solo-board-status h2 { font-size:16px; margin:0; }
+  #solo-info { font-size:10px; margin:0; max-width:135px; }
+  #solo-board { width:min(100%,calc(100dvh - 344px)); }
+  .solo-board-bottom { min-height:36px; }
+  #solo-history-open { font-size:10px; min-height:32px; }
+  .solo-board-bottom .quiet { font-size:9px; }
+  .solo[data-screen="game"] .solo-storage { font-size:8px; min-height:10px; }
+  .solo-tools { grid-row:4; padding:5px; overflow:visible; position:relative; border-radius:10px; }
+  .solo-checklist, .solo-tools-note { display:none; }
+  #solo-more { display:block; }
+  .solo-tools-actions .button { font-size:12px; min-height:40px; padding:8px; }
+  .solo-tools-detail { display:none; }
+  .solo-tools.expanded .solo-tools-detail { display:block; position:absolute; bottom:56px; left:0; right:0; max-height:min(230px,35dvh); overflow:auto; padding:14px; margin:0; border:1px solid var(--line); border-radius:12px; background:var(--panel); box-shadow:0 -10px 40px #0005; z-index:5; }
+  .solo-dialog { position:fixed; top:230px; bottom:auto; margin:0 auto; width:calc(100vw - 24px); padding:18px; max-height:calc(100dvh - 244px); }
+  .solo-dialog h2 { font-size:23px; }
+  .solo-dialog .solo-accuracy-card { padding:10px; }
+  #solo-counts { gap:5px; margin:12px 0; }
+  #solo-counts li { font-size:10px; padding:5px 7px; gap:4px; }
+  .solo-dialog-actions { margin-top:12px; }
+  #solo-result-open { min-height:28px; padding:3px 12px; font-size:11px; }
+}
+@media(min-width:721px) and (max-height:500px) {
+  .solo { grid-template-rows:38px minmax(0,1fr); padding-bottom:8px; }
+  .solo[data-screen="game"] { grid-template-columns:155px minmax(0,1fr) 170px; gap:0 10px; }
+  .solo-professor-title, .solo-professor-note, .solo-tools-note, .solo-board-status .eyebrow { display:none; }
+  .solo[data-screen="game"] .solo-professor { gap:8px; padding:10px; }
+  .solo .pogona-bubble { padding:8px; }
+  #solo-speech { font-size:10px; max-height:65px; }
+  #solo-grade { font-size:12px; }
+  .solo-grade-card { padding:5px; }
+  .solo-board-status { min-height:36px; }
+  .solo-board-status h2 { font-size:14px; margin:0; }
+  #solo-board { width:min(100%,calc(100dvh - 198px)); }
+  .solo-board-bottom { min-height:30px; }
+  .solo-dialog { width:calc(100vw - 410px); max-height:calc(100dvh - 90px); padding:18px; }
+}
+/* Fieldset legends inherit large lobby margins unless explicitly reset here. */
+.solo-option-row legend, .solo-visual-options legend { margin:0; }
+.solo-option-row legend { color:var(--text); }
+/* Size from the available center cell, so all eight ranks stay square and visible. */
+.solo-board-wrap { container-type:size; }
+.solo #solo-board { width:min(100cqw,100cqh); height:min(100cqw,100cqh); max-height:none; }
+@media(max-width:720px) {
+  .solo-start-row { position:sticky; bottom:0; background:var(--panel); padding:10px 0 4px; z-index:2; box-shadow:0 -8px 16px var(--panel); }
+}

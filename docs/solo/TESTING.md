@@ -87,3 +87,10 @@ Executar toda a suíte existente e confirmar:
 6. concluir a partida;
 7. conferir precisão e resumo;
 8. desligar internet e repetir o fluxo local.
+
+## Execução implementada
+
+Consulte `IMPLEMENTATION.md` para os comandos e a cobertura automatizada.
+Os testes de navegador bloqueiam requisições externas preservando o servidor
+local; não desligam as interfaces de rede do computador. O smoke Solo também
+bloqueia conexões Python externas, sem alterar configurações globais.

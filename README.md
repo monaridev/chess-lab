@@ -82,6 +82,19 @@ continuam disponíveis para duas pessoas.
 Documentação do currículo, assets e expansão: [docs/pogona/IMPLEMENTACAO.md](docs/pogona/IMPLEMENTACAO.md).
 Testes específicos: `.venv/bin/pytest -q tests/test_learning.py tests/test_browser_learning.py`.
 
+## Modo Solo Offline
+
+Na tela inicial, escolha **Modo Solo** para jogar contra Stockfish local nas
+dificuldades Iniciante, Fácil, Médio ou Difícil. Escolha brancas/pretas e revisão
+pós-lance com ou sem dicas progressivas. O Professor Pogona comenta cada lance
+com evidências da posição; o fim da partida mostra precisão estimada e resumo.
+
+Este modo exige o binário Stockfish local (o caminho habitual ou `STOCKFISH_PATH`).
+Com aplicação, dependências e binário instalados, funciona sem internet usando o
+servidor local. Sem LLM, serviços externos, conta, banco ou Elo. Preferências e
+estatísticas leves ficam no navegador; reiniciar o servidor apaga a partida.
+Detalhes, comandos de teste e limites: [implementação Solo](docs/solo/IMPLEMENTATION.md).
+
 ## Rodar localmente
 
 Requer Python 3.12 ou superior.

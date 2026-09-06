@@ -11,7 +11,10 @@
   <link rel="stylesheet" href="/static/special-themes.css">
   <link rel="stylesheet" href="/static/learning.css">
   <script src="/static/app.js" defer></script>
+  <script src="/static/board_view.js" defer></script>
   <script src="/static/learning.js" defer></script>
+  <script src="/static/solo.js" defer></script>
+  <link rel="stylesheet" href="/static/solo.css">
 </head>
 <body>
   <header class="site-header">
@@ -27,6 +30,7 @@
         <div class="welcome-details"><span>01 &nbsp; Crie uma sala</span><span>02 &nbsp; Compartilhe o código</span><span>03 &nbsp; Joguem juntos</span></div>
         <div id="resume-box" class="resume-box" hidden><p>Sua sala está guardada nesta aba.</p><button id="resume" class="button secondary">Retomar partida</button></div>
         <div class="learn-entry panel"><span class="eyebrow">UM PASSO DE CADA VEZ</span><p>Explore o tabuleiro com um professor ao seu lado.</p><button id="learn-open" class="button primary">Aprender com o Pogona →</button><small>6 capítulos interativos · progresso neste navegador</small></div>
+        <div class="learn-entry panel"><span class="eyebrow">NO SEU RITMO</span><p>Jogue contra Stockfish com o Professor Pogona ao seu lado.</p><button id="solo-open" class="button primary">Modo Solo →</button><small>Offline com o servidor e Stockfish no seu computador.</small></div>
         <p class="quiet">Sem cadastro. Sem instalações. Só xadrez.</p>
       </div>
       <div class="entry-panel panel">
@@ -124,8 +128,53 @@
         </div>
       </div>
     </section>
+    <section id="solo" class="solo" aria-label="Modo Solo" data-screen="setup" hidden>
+      <header class="solo-topbar"><button id="solo-back" class="text-button">← Início</button><span class="eyebrow">SOLO <span aria-hidden="true">/</span> NO SEU RITMO</span><button id="solo-look-open" class="text-button" hidden>Aparência ◇</button></header>
+      <aside id="solo-professor" class="solo-professor panel" aria-label="Professor Pogona no Solo">
+        <div class="solo-professor-title"><span class="solo-avatar" aria-hidden="true">✧</span><div><strong>Professor Pogona</strong><small>Seu companheiro de descobertas</small></div></div>
+        <div id="solo-grade-card" class="solo-grade-card" hidden><span id="solo-grade-icon" aria-hidden="true">✦</span><p id="solo-grade" role="status" aria-live="polite"></p></div>
+        <div class="pogona-bubble"><p id="solo-speech" role="status" aria-live="polite" aria-atomic="true">Vamos jogar no seu ritmo. Eu acompanho cada lance.</p></div>
+        <div class="solo-portrait"><img id="solo-pose" src="/static/assets/pogona/professor_pogona_idle.png" alt="Professor Pogona" width="220" height="280"><span id="solo-pose-label">Observando</span></div>
+        <p class="solo-professor-note">Pequenos lances,<br>grandes aprendizados.</p>
+      </aside>
+      <div id="solo-scroll" class="solo-content">
+        <div id="solo-notice"><p id="solo-error" class="error" role="alert"></p><button id="solo-retry" class="button secondary" hidden>Atualizar e tentar novamente</button></div>
+        <div id="solo-setup" class="solo-setup panel">
+          <div class="solo-hero"><p class="eyebrow">VOCÊ, O TABULEIRO E NOVAS IDEIAS</p><h1>Uma partida.<br><span>Muitas descobertas.</span></h1><p>Enfrente o Stockfish e aprenda com cada lance.<br>O Pogona acompanha você do primeiro passo ao último.</p><span class="solo-hero-piece" aria-hidden="true">♞</span></div>
+          <form id="solo-form">
+            <fieldset id="solo-difficulty" class="solo-option-row"><legend>Dificuldade</legend><p>Escolha o ritmo do desafio.</p><div class="solo-segments">
+              <label><input type="radio" name="difficulty" value="beginner" checked><span>Iniciante</span></label><label><input type="radio" name="difficulty" value="easy"><span>Fácil</span></label><label><input type="radio" name="difficulty" value="medium"><span>Médio</span></label><label><input type="radio" name="difficulty" value="hard"><span>Difícil</span></label>
+            </div></fieldset>
+            <fieldset id="solo-color" class="solo-option-row"><legend>Suas peças</legend><p>De qual lado começa sua descoberta?</p><div class="solo-segments"><label><input type="radio" name="color" value="white" checked><span>♙ &nbsp; Brancas</span></label><label><input type="radio" name="color" value="black"><span>♟ &nbsp; Pretas</span></label></div></fieldset>
+            <fieldset id="solo-help" class="solo-option-row"><legend>Ajuda do professor</legend><p>Todo lance recebe uma revisão.</p><div class="solo-segments solo-help-options"><label><input type="radio" name="help_mode" value="progressive" checked><span>Dicas + revisão<small>Pistas quando precisar</small></span></label><label><input type="radio" name="help_mode" value="review"><span>Só revisão<small>Descubra por conta própria</small></span></label></div></fieldset>
+            <div id="solo-appearance-home"></div>
+            <div class="solo-start-row"><button id="solo-start" class="button primary" type="submit"><span aria-hidden="true">▶</span> Começar partida</button><small>Stockfish local · sem conta · no seu ritmo</small></div>
+          </form><button id="solo-resume" class="text-button" hidden>↺ Retomar Solo nesta aba</button>
+        </div>
+        <div id="solo-game" class="solo-game" hidden>
+          <div class="solo-board-status"><div><span class="eyebrow">SUA PARTIDA</span><h2 id="solo-turn" tabindex="-1"></h2></div><p id="solo-info"></p></div>
+          <div class="solo-board-wrap"><div id="solo-board" class="board" role="group" aria-label="Tabuleiro Solo"></div></div>
+          <div class="solo-board-bottom"><span id="solo-last" class="quiet">Escolha uma peça e um destino.</span><button id="solo-history-open" class="text-button" aria-haspopup="dialog">Lances revisados (0) <span aria-hidden="true">↗</span></button></div>
+          <button id="solo-result-open" class="button secondary" hidden>Ver resultado da partida</button>
+        </div>
+        <p id="solo-storage" class="solo-storage" role="status"></p>
+      </div>
+      <aside id="solo-tools" class="solo-tools panel" hidden aria-label="Ajuda e ações da partida">
+        <div class="solo-checklist"><span class="eyebrow">UMA PAUSA PARA PENSAR</span><h3>Antes de mover, pense</h3><ol><li>Meu rei está seguro?</li><li>Alguma peça está em perigo?</li><li>O que o adversário ameaça?</li></ol></div>
+        <div class="solo-tools-actions"><button id="solo-hint" class="button primary">Pedir dica</button><button id="solo-more" class="button secondary" aria-expanded="false">Ajuda e ações <span aria-hidden="true">⌃</span></button></div>
+        <div id="solo-tools-detail" class="solo-tools-detail"><ol id="solo-hints" aria-live="polite"></ol><button id="solo-reveal" class="text-button" hidden>Revelar uma possibilidade</button>
+          <div id="solo-confirm" class="solo-confirm" hidden><p>Quer ver uma possibilidade para esta posição?</p><button id="solo-reveal-yes" class="button secondary">Mostrar possibilidade</button><button id="solo-reveal-no" class="text-button">Continuar pensando</button></div>
+          <p id="solo-revealed"></p><button id="solo-resign" class="text-button">⚑ Encerrar partida</button>
+          <div id="solo-resign-confirm" class="solo-confirm" hidden><p>Encerrar por desistência?</p><button id="solo-resign-yes" class="button secondary">Confirmar desistência</button><button id="solo-resign-no" class="text-button">Continuar jogando</button></div>
+        </div><p class="solo-tools-note">Observe. Experimente.<br>Uma ideia de cada vez.</p>
+      </aside>
+      <dialog id="solo-summary" class="solo-dialog solo-summary" aria-labelledby="solo-summary-title"><button class="solo-dialog-close icon-button" data-close="solo-summary" aria-label="Fechar resultado">×</button><p class="eyebrow">FIM DE PARTIDA</p><h2 id="solo-summary-title">O que aprendemos</h2><p id="solo-result"></p><div class="solo-accuracy-card"><span>Precisão estimada</span><strong id="solo-accuracy"></strong><small>Qualidade dos seus lances nesta partida</small></div><ul id="solo-counts" aria-label="Classificações dos lances"></ul><div class="solo-takeaways"><div><h3>◎ Acertos observados</h3><p id="solo-strengths"></p></div><div><h3>↗ Para praticar</h3><p id="solo-improve"></p></div></div><div class="solo-dialog-actions"><button id="solo-new" class="button primary">↺ Jogar novamente</button><button id="solo-analysis-open" class="button secondary">Ver análise completa</button></div></dialog>
+      <dialog id="solo-analysis" class="solo-dialog solo-analysis" aria-labelledby="solo-analysis-title"><button class="solo-dialog-close icon-button" data-close="solo-analysis" aria-label="Fechar análise">×</button><p class="eyebrow">UM LANCE DE CADA VEZ</p><h2 id="solo-analysis-title">Lances revisados</h2><p id="solo-concepts" class="quiet"></p><ol id="solo-history"></ol><p id="solo-history-empty" class="quiet">Seus lances aparecerão aqui depois da primeira revisão.</p></dialog>
+      <dialog id="solo-look" class="solo-dialog" aria-labelledby="solo-look-title"><button class="solo-dialog-close icon-button" data-close="solo-look" aria-label="Fechar aparência">×</button><h2 id="solo-look-title">Seu jeito de jogar</h2><div id="solo-appearance-game"></div></dialog>
+    </section>
   </main>
   <footer class="site-footer"><span>CHESS LAB</span><span>Um espaço para jogar e aprender juntos.</span><span>FEITO PARA DOIS</span></footer>
+  <dialog id="solo-promotion"><form method="dialog"><h2>Promover para qual peça?</h2><div class="promotion-options"><button class="button secondary" value="q">Dama</button><button class="button secondary" value="r">Torre</button><button class="button secondary" value="b">Bispo</button><button class="button secondary" value="n">Cavalo</button></div><button value="cancel" class="text-button">Cancelar</button></form></dialog>
   <dialog id="promotion-dialog" aria-labelledby="promotion-title"><form method="dialog"><p class="eyebrow">SEU PEÃO CHEGOU LÁ</p><h2 id="promotion-title">Promover para qual peça?</h2><p class="muted">Escolha a nova peça para concluir o lance.</p><div class="promotion-options"><button class="button secondary" value="q">Dama</button><button class="button secondary" value="r">Torre</button><button class="button secondary" value="b">Bispo</button><button class="button secondary" value="n">Cavalo</button></div><button class="text-button" value="cancel">Cancelar</button></form></dialog>
   <dialog id="reveal-dialog" aria-labelledby="reveal-title" aria-describedby="reveal-description"><form method="dialog">
     <div class="reveal-mark" aria-hidden="true">✧</div>

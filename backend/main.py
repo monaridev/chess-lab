@@ -10,6 +10,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import ValidationError
 
+from .solo import SoloManager, router as solo_router
 from .learning import router as learning_router
 from .game import GameError, outcome, play
 from .analysis import AnalysisService
@@ -28,9 +29,11 @@ async def receive_text(ws: WebSocket) -> str:
     return message["text"]
 
 
-def create_app(manager: RoomManager | None = None, analysis: AnalysisService | None = None) -> FastAPI:
+def create_app(manager: RoomManager | None = None, analysis: AnalysisService | None = None, solo: SoloManager | None = None) -> FastAPI:
     rooms = manager if manager is not None else RoomManager()
     analyser = analysis if analysis is not None else AnalysisService()
+
+    solo_manager = solo if solo is not None else SoloManager()
 
     @asynccontextmanager
     async def lifespan(app):
@@ -38,6 +41,7 @@ def create_app(manager: RoomManager | None = None, analysis: AnalysisService | N
             while True:
                 await asyncio.sleep(60)
                 rooms.cleanup()
+                solo_manager.cleanup()
 
         task = asyncio.create_task(cleanup())
         yield
@@ -45,9 +49,12 @@ def create_app(manager: RoomManager | None = None, analysis: AnalysisService | N
         with suppress(asyncio.CancelledError):
             await task
         await analyser.close()
+        await solo_manager.engine.close()
 
     app = FastAPI(title="Chess Lab", lifespan=lifespan)
     app.include_router(learning_router)
+    app.include_router(solo_router)
+    app.state.solo = solo_manager
     app.state.rooms = rooms
     app.state.analysis = analyser
 

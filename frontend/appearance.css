@@ -1,5 +1,5 @@
 /* Temas alteram tokens; os estados do tabuleiro compartilham a mesma estrutura. */
-:root {
+:root, [data-theme="laboratory"] {
   --bg: #0d1914;
   --panel: #17271f;
   --text: #f2f3e8;

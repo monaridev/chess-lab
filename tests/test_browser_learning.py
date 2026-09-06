@@ -178,7 +178,7 @@ def test_bubble_and_long_objectives_fit_viewport(pages):
         page.set_viewport_size({'width': width, 'height': height})
         for scroll in [0, 5000]:
             page.locator('#learn-scroll').evaluate('(el, y) => el.scrollTop = y', scroll)
-            bubble = page.locator('.pogona-bubble').bounding_box()
+            bubble = page.locator('#learning .pogona-bubble').bounding_box()
             portrait = page.locator('#pogona-pose').bounding_box()
             content = page.locator('#learn-scroll').bounding_box()
             assert bubble['x'] >= 0 and bubble['y'] >= 0

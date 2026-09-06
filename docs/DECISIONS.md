@@ -227,3 +227,18 @@ uma lição, o Pogona também apresenta o objetivo no balão. Essa mensagem tem
 prioridade até uma tentativa de lance: selecionar/trocar peças ou pedir dicas
 não a dispensa; escolher um destino ilegal ou enviar uma jogada a dispensa.
 Depois disso, o balão acompanha as falas de observação, alerta e feedback.
+
+## D-027 — Solo Offline com Stockfish e revisão sem LLM
+**Status:** aceita
+
+Extensão de escopo solicitada, substituindo a exclusão de adversário artificial
+apenas para o novo Solo. Stockfish local é obrigatório nesse modo; Normal,
+Assistido e Aprender mantêm seus contratos e fallback atuais. Sessões Solo são
+isoladas em memória, com token temporário por aba, sem login, banco ou Elo.
+Revisão pós-lance combina avaliações UCI e evidências de `hints.py`; não usa LLM,
+API externa ou mensagens aleatórias. Dificuldade do adversário não reduz a
+força da revisão. Preferências/estatísticas leves são locais ao navegador.
+
+Renderização do tabuleiro foi extraída de Aprender para `board_view.js`, sem
+alterar suas regras. Os dois modos usam os mesmos assets e layout do Pogona.
+Detalhes e critérios: `solo/DECISIONS.md`, D12–D16, e `solo/IMPLEMENTATION.md`.
