@@ -1,46 +1,54 @@
-# ChessLab — Modo Solo Offline — Decisões
+# ChessLab Solo — Decisões de produto e arquitetura
 
-## D1 — Stockfish será o adversário
-**Decisão:** usar Stockfish para escolher os lances do oponente.
+## D1 — Stockfish é o adversário
+Decisão: usar Stockfish local como engine do modo Solo.
 
-**Motivo:** é especializado em xadrez, rápido, previsível, testável e pode funcionar localmente.
+Motivo: é especializado em xadrez, funciona offline, é previsível e não possui custo por requisição.
 
-## D2 — Não usar IA generativa para jogar
-**Decisão:** nenhuma LLM será responsável por escolher os lances.
+## D2 — Não usar LLM
+Decisão: nenhuma LLM será necessária para escolher jogadas ou escrever comentários.
 
-**Motivo:** adicionaria dependência de internet/API, custo, imprevisibilidade e complexidade sem necessidade.
+Os comentários são montados dinamicamente a partir de evidências do tabuleiro e análise da engine.
 
-## D3 — Pogona continua sendo o professor
-**Decisão:** Stockfish não fala diretamente com o usuário.
+## D3 — Sem API paga
+Decisão: o modo Solo não dependerá de serviços pagos externos.
 
-**Motivo:** manter personalidade e pedagogia centralizadas no Professor Pogona.
+## D4 — Sem banco de dados
+Decisão: não adicionar banco de dados para o modo Solo.
 
-## D4 — O adversário não deve jogar sempre perfeito
-**Decisão:** limitar a força da engine por nível.
+Dados opcionais de progresso ficam em `localStorage`.
 
-**Motivo:** um iniciante precisa de uma experiência desafiadora, não frustrante.
+## D5 — Sem Elo/rating público
+Decisão: não implementar sistema de Elo.
 
-## D5 — Sem login e sem banco no escopo inicial
-**Decisão:** preferências e progresso leve ficam no navegador.
+O usuário escolhe dificuldade diretamente: Iniciante, Fácil, Médio ou Difícil.
 
-**Motivo:** manter o ChessLab simples e coerente com o produto atual.
+Motivo: reduz complexidade, elimina necessidade de identidade persistente e evita transformar a experiência em ranking.
 
-## D6 — A ajuda do Pogona é configurável
-**Decisão:** oferecer modos Guiado, Assistido e Livre.
+## D6 — Precisão não é Elo
+A precisão representa a qualidade dos lances dentro de uma partida.
 
-**Motivo:** permitir evolução gradual sem criar três sistemas diferentes de jogo.
+Ela não representa ranking e não precisa ser persistida além de estatísticas locais opcionais.
 
-## D7 — Não expor avaliação técnica pesada
-**Decisão:** evitar centipawns, profundidade de engine e números técnicos na interface padrão.
+## D7 — Classificações próprias do ChessLab
+Não copiar nomes exatos, fórmulas, identidade visual ou thresholds de plataformas externas.
 
-**Motivo:** o objetivo é ensinar xadrez, não ensinar a ler uma engine.
+O ChessLab terá critérios próprios calibrados com Stockfish e testes.
 
-## D8 — Priorizar reaproveitamento da arquitetura atual
-**Decisão:** reutilizar `python-chess`, integração Stockfish, análise e hints existentes.
+## D8 — Comentário baseado no lance real
+O Pogona não escolherá simplesmente uma frase aleatória de um conjunto associado a `Boa`, `Erro`, etc.
 
-**Motivo:** reduzir bugs, duplicação e tempo de implementação.
+O comentário precisa usar evidências detectadas naquela posição.
 
-## D9 — Primeira versão não precisa ser PWA
-**Decisão:** o primeiro objetivo é não depender de API externa para a partida Solo.
+## D9 — Pogona sempre presente
+No modo Solo, o Pogona permanece visível durante toda a partida.
 
-**Motivo:** suporte totalmente offline após fechar/reabrir o navegador exigiria cache/PWA ou empacotamento e pode ser tratado depois.
+Ele deve reagir sem cobrir o tabuleiro ou interromper excessivamente o ritmo.
+
+## D10 — Melhor lance não é mostrado automaticamente
+A análise pode calcular o melhor lance, mas o sistema não deve entregá-lo por padrão após todo erro.
+
+O foco é explicar o problema da jogada. Mostrar solução deve exigir ação explícita quando fizer sentido.
+
+## D11 — Modos existentes permanecem isolados
+Normal, Assistido e Aprender não devem mudar de comportamento por causa do modo Solo.
